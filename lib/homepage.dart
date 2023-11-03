@@ -16,28 +16,47 @@ class PlantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Card(
-        child: SizedBox(
-          width: 140,
-          height: 170,
-          child: Column(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage('assets/images/monstera.jpg'),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Johnny"),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Monstera deliciosa"),
-              ),
-            ],
+        margin: const EdgeInsets.all(20),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SizedBox(
+            width: 150,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/monstera.jpg'),
+                  radius: 40,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Johnny",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Monstera",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                FilledButton.tonal(
+                    onPressed: onpressed,
+                    child: Text(
+                      "Water me",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    )),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  void onpressed() {}
 }

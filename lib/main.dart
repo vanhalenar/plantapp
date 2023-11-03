@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'homepage.dart';
 
 void main() {
@@ -10,7 +11,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: NavigationApp());
+    return MaterialApp(
+      home: NavigationApp(),
+      theme: ThemeData(
+        useMaterial3: true,
+        textTheme: TextTheme(
+            titleLarge: GoogleFonts.josefinSans(
+              fontSize: 24,
+            ),
+            titleMedium: GoogleFonts.josefinSans(
+              fontSize: 18,
+              color: const Color(0xAA6E7487),
+            ),
+            labelMedium: GoogleFonts.josefinSans(
+              fontSize: 18,
+            )),
+      ),
+    );
   }
 }
 
