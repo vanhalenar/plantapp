@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,17 +54,6 @@ class _NavigationAppState extends State<NavigationApp> {
         const Calendar(),
         const Profile(),
       ][currentPageIndex],
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("Homepage"),
     );
   }
 }
