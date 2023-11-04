@@ -17,4 +17,11 @@ class Plant {
         needWater: json["needWater"],
         needFertilizer: json["needFertilizer"]);
   }
+
+  Map<String, dynamic> toJson() => {
+        'databaseId': databaseId,
+        'nickname': nickname,
+        'needWater': needWater,
+        'needFertilizer': needFertilizer
+      };
 }

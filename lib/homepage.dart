@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'controller/collection_controller.dart';
+import 'controller/plant_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,10 +26,12 @@ class PlantCard extends StatefulWidget {
 }
 
 class _PlantCardState extends State<PlantCard> {
-  var controller = CollectionController();
+  var collectionController = CollectionController();
+  var plantController = PlantController();
 
   Future<void> loadScreen() async {
-    await controller.loadPlantsFromAsset();
+    await collectionController.loadPlantsFromAsset();
+    await plantController.loadPlantsFromAsset();
     setState(() {});
   }
 
@@ -42,7 +45,7 @@ class _PlantCardState extends State<PlantCard> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 270,
+        height: 300,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
@@ -53,7 +56,6 @@ class _PlantCardState extends State<PlantCard> {
                 child: SizedBox(
                   width: 150,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       const CircleAvatar(
                         backgroundImage:
@@ -63,7 +65,7 @@ class _PlantCardState extends State<PlantCard> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          controller.plants[index].nickname,
+                          collectionController.tasks[index].nickname,
                           style: Theme.of(context).textTheme.titleLarge,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -72,23 +74,33 @@ class _PlantCardState extends State<PlantCard> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Monstera",
+                          plantController
+                              .plants[
+                                  collectionController.tasks[index].databaseId -
+                                      1]
+                              .latin,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
-                      FilledButton.tonal(
-                          onPressed: onpressed,
-                          child: Text(
-                            "Water me",
-                            style: Theme.of(context).textTheme.labelMedium,
-                          )),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FilledButton.tonal(
+                              onPressed: onpressed,
+                              child: Text(
+                                collectionController.waterOrFertilize(
+                                    collectionController.tasks[index]),
+                                style: Theme.of(context).textTheme.labelMedium,
+                              )),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
             );
           },
-          itemCount: controller.plants.length,
+          itemCount: collectionController.tasks.length,
         ),
       ),
     );
