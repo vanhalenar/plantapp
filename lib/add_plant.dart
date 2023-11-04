@@ -1,23 +1,36 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:plantapp/controller/plant_controller.dart';
 
 class AddPlant extends StatelessWidget {
   const AddPlant({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: PlantCard(),
+    return Scaffold(
+      body: FutureBuilder(
+        future: PlantController().loadPlantsFromAsset(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return PlantCard(); // Data is loaded; display the PlantCard
+          } else {
+            return Center(child: CircularProgressIndicator()); // Show a loading indicator during data loading
+          }
+        },
+      ),
     );
   }
 }
+
 
 class PlantCard extends StatelessWidget {
   const PlantCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //final plantController = PlantController();
+    //final plants = plantController.plants;
     return Center(
       child: Card(
         margin: const EdgeInsets.all(20),
