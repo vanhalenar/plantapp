@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'homepage.dart';
+import 'addplant.dart';
 
 void main() {
   runApp(const MyApp());
@@ -77,15 +78,6 @@ class _NavigationAppState extends State<NavigationApp> {
 
 class Achievements extends StatelessWidget {
   const Achievements({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class AddPlant extends StatelessWidget {
-  const AddPlant({super.key});
 
   @override
   Widget build(BuildContext context) {
