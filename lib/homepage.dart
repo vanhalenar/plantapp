@@ -42,7 +42,7 @@ class _PlantCardState extends State<PlantCard> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 260,
+        height: 270,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
@@ -65,6 +65,8 @@ class _PlantCardState extends State<PlantCard> {
                         child: Text(
                           controller.plants[index].nickname,
                           style: Theme.of(context).textTheme.titleLarge,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Align(
