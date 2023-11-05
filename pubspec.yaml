@@ -61,7 +61,7 @@ flutter:
   assets:
     - assets/images/
     - assets/plantDatabase.json
-    - assets/plantCollection.json
+    - assets/tasks.json
     - assets/plantColl.json
 
   # To add assets to your application, add an assets section, like this:

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantapp/controller/collection_controller.dart';
+import 'package:plantapp/controller/task_controller.dart';
 import 'package:plantapp/controller/plant_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,11 +26,11 @@ class PlantCard extends StatefulWidget {
 }
 
 class _PlantCardState extends State<PlantCard> {
-  var collectionController = CollectionController();
+  var taskController = TaskController();
   var plantController = PlantController();
 
   Future<void> loadScreen() async {
-    await collectionController.loadPlantsFromAsset();
+    await taskController.loadPlantsFromAsset();
     await plantController.loadPlantsFromAsset();
     setState(() {});
   }
@@ -65,7 +65,7 @@ class _PlantCardState extends State<PlantCard> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          collectionController.tasks[index].nickname,
+                          taskController.tasks[index].nickname,
                           style: Theme.of(context).textTheme.titleLarge,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -76,8 +76,7 @@ class _PlantCardState extends State<PlantCard> {
                         child: Text(
                           plantController
                               .plants[
-                                  collectionController.tasks[index].databaseId -
-                                      1]
+                                  taskController.tasks[index].databaseId - 1]
                               .latin,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
@@ -89,13 +88,13 @@ class _PlantCardState extends State<PlantCard> {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStatePropertyAll<Color>(
-                                        collectionController.blueOrBrown(
-                                            collectionController.tasks[index])),
+                                        taskController.blueOrBrown(
+                                            taskController.tasks[index])),
                               ),
                               onPressed: onpressed,
                               child: Text(
-                                collectionController.waterOrFertilize(
-                                    collectionController.tasks[index]),
+                                taskController.waterOrFertilize(
+                                    taskController.tasks[index]),
                                 style: Theme.of(context).textTheme.labelMedium,
                               )),
                         ),
@@ -106,7 +105,7 @@ class _PlantCardState extends State<PlantCard> {
               ),
             );
           },
-          itemCount: collectionController.tasks.length,
+          itemCount: taskController.tasks.length,
         ),
       ),
     );
