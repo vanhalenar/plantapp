@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'homepage.dart';
 import 'view/add_plant.dart';
+import 'view/plant_collection.dart';
 
 void main() {
   runApp(const MyApp());
@@ -71,7 +72,7 @@ class _NavigationAppState extends State<NavigationApp> {
         const Achievements(),
         const AddPlant(),
         const Calendar(),
-        const Profile(),
+        const PlantCollection(),
       ][currentPageIndex],
     );
   }
@@ -88,15 +89,6 @@ class Achievements extends StatelessWidget {
 
 class Calendar extends StatelessWidget {
   const Calendar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class Profile extends StatelessWidget {
-  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
