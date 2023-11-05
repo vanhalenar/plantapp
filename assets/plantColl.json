@@ -1,0 +1,21 @@
+[
+    {
+        "databaseId" : 1,
+        "nickname" : "Sal"
+    },
+
+    {
+        "databaseId" : 6,
+        "nickname" : "Joey"
+    },
+
+    {
+        "databaseId" : 7,
+        "nickname" : "Eldrani, the Chosen One"
+    },
+
+    {
+        "databaseId" : 8,
+        "nickname" : "Jenny"
+    }
+]
