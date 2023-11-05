@@ -40,7 +40,7 @@ class AddPlantState extends State<AddPlant> {
 
   @override
   Widget build(BuildContext context) {
-    // Check if the correct amount of data is loaded
+    // Checking if the correct amount of data is loaded
     if (dataLoaded) {
       return Scaffold(
         body: ListView.builder(
@@ -51,7 +51,7 @@ class AddPlantState extends State<AddPlant> {
             return GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlantProfileCard(),
+                  builder: (context) => PlantProfileCard(plant: plant),
                 ));
               },
               child: PlantCard(key: uniqueKey, plant: plant),
@@ -95,7 +95,7 @@ class PlantCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      plant.latin, // Display the Latin name of the plant
+                      plant.latin, // Displaying the Latin name of the plant
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class PlantCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(), // Add a spacer to push the info icon to the right
+                Spacer(), // Added a spacer to push the info icon to the right
                 Icon(Icons.info_outline),
               ],
             ),
