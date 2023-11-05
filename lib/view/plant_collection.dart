@@ -80,25 +80,16 @@ class _PlantInstState extends State<PlantInst> {
                       child: Text(
                         collCont.plants[index].nickname, 
                         textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w600,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge
                       ),
                     ),
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         plantCont.plants[collCont.plants[index].databaseId-1].latin, 
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54,
-                          height: 1.0,
-                          leadingDistribution: TextLeadingDistribution.even
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     )
                   ]
