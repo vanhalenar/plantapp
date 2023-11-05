@@ -13,9 +13,4 @@ class Plant {
       nickname: json["nickname"],
     );
   }
-
-  Map<String, dynamic> toJson() => {
-    'databaseId': databaseId,
-    'nickname': nickname,
-  };
 }
