@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:plantapp/model/collection_model.dart';
+import 'package:plantapp/model/coll_model.dart';
 
 class CollController {
   List<Plant> _plants = [];
@@ -9,7 +9,7 @@ class CollController {
 
   Future<void> loadPlantsFromAsset() async {
     try {
-      final String data = await rootBundle.loadString('assets/plantCollection.json');
+      final String data = await rootBundle.loadString('assets/plantColl.json');
       final List<dynamic> jsonData = json.decode(data);
       _plants = jsonData.map((e) => Plant.fromJson(e)).toList();
     } catch (e) {
