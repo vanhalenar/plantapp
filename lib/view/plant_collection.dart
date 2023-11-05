@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/plant_controller.dart';
-import 'package:plantapp/controller/collection_controller.dart';
+import 'package:plantapp/controller/coll_controller.dart';
 
 class PlantCollection extends StatefulWidget {
   const PlantCollection({super.key});
@@ -25,7 +25,7 @@ class PlantInst extends StatefulWidget {
 
 class _PlantInstState extends State<PlantInst> {
 
-  var collCont = CollectionController();
+  var collCont = CollController();
   var plantCont = PlantController();
 
   Future<void> loadScreen() async {
@@ -49,7 +49,7 @@ class _PlantInstState extends State<PlantInst> {
           crossAxisCount: 2,
           childAspectRatio: 0.67
         ),
-        itemCount: collCont.tasks.length,
+        itemCount: collCont.plants.length,
         itemBuilder:(context, index) {
           return Card(
             margin: const EdgeInsets.all(15),
@@ -78,7 +78,7 @@ class _PlantInstState extends State<PlantInst> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        collCont.tasks[index].nickname, 
+                        collCont.plants[index].nickname, 
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                           fontSize: 26,
@@ -91,7 +91,7 @@ class _PlantInstState extends State<PlantInst> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        plantCont.plants[collCont.tasks[index].databaseId-1].latin, 
+                        plantCont.plants[collCont.plants[index].databaseId-1].latin, 
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w400,
