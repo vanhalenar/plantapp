@@ -8,7 +8,7 @@ Návrh vychádza z mojej vlastnej potreby pre aplikáciu, ktorá by poskytovala 
 Kajin návrh témy a zdôvodnenie
 
 ## Téma 3 (Tomáš Mikát) 
-Tomášov návrh témy a zdôvodnenie
+Ako návrh som vymyslel aplikáciu, ktorá by zjednodušila spoznávanie ľudí a stretávanie sa s nimi. Existuje už veľa aplikácií s podobnými zámermi, avšak naša by bola zameraná na objavovanie menších špecifickejších skupín ľudí. Zadali by sa informácie o tom, čo má človek rád a čo by chcel, aby mal spoločné s hľadanou skupinou. Tak by sa vyhladala skupinka, ktorá sa nachádza v jeho okolí a pridal by sa do spoločného chatu. Tam by si mohli písať, plánovať stretnutia/akcie/výlety.
 
 ## Zvolená téma: Pomocník pre pestovateľov rastlín
 Rozhodli sme sa pre danú tému, pretože abcdef
@@ -29,8 +29,8 @@ tu budú popísané prednosti a nedostatky aplikácie Plant Daddy
 
 ## Analýza požiadaviek (Tomáš Mikát)
 tu budú získané poznatky z prieskumu
-###  Aplikácia 3: analýza aplikácie
-tu budú popísané prednosti a nedostatky aplikácie abcdef
+###  Plant Parent: analýza aplikácie
+Plant Parent slúži hlavne na rovnaký cieľ ako aj naša aplikácia. Má veľa návodov, veľkú databázu rastlín, vlastnú kolekciu, rozoznanie rastlín pomocou fotoaparátu a samozrejme aj úlohy vo forme pripomienok. Aplikácia má jednoduchý a ľahko interpretovateľný dizajn, čiže sa v nej dá orientovať celkom rýchlo a bez problémov. Medzi jej veľké výhody patrí možnosť komunikácie s profesionálmi o určitých problémoch a informáciách. Avšak má aj problémy, ktorých sa chcem vyvarovať. Hlavným mínusom je, že niekoľko vymožeností je zamknutých za plateným VIP. Narozdiel od toho naša aplikácia bude celá zadarmo. Taktiež má ešte jeden menší problém, že sa niekedy na jednej obrazovke nachádza priveľa informácií a ťažko sa v nich orientuje. Tomu zabránime lepším roztriedením a hlavne znížením množstva nedôležitých informácií. Nakoniec už len jej nedostatky, ku ktorým môžem dať asi len gamifikáciu, ktorú my plánujeme naimplementovať.
 
 ## Užívateľské potreby a kľúčové problémy
 tu bude zhrnutie analýzy požiadaviek, čo ľudia potrebujú od našej svetobornej aplikácie? čo chcú, nechcú? ako postupujú pri činnosti? aké sú kľúčové vlastnosti našej aplikácie?
@@ -51,8 +51,10 @@ tu bude popísaný návrh časti aplikácie a bude tu maketa (viz zadanie)
 ### Testovanie
 tu bude napísané, ako sa testovalo (viz zadanie)
 
-## Návrh časti aplikácie (Tomáš Mikát)
-tu bude popísaný návrh časti aplikácie a bude tu maketa (viz zadanie)
+## Návrh časti aplikácie - Kolekcia rastlín a Kalendár úloh (Tomáš Mikát)
+Pre moju časť aplikácie sa budú používať dva hlavné panely.
+Kalendár úloh obsahuje posuvný panel, na ktorom sa zobrazujú jednotlivé úlohy. V kalendári sa pre dosiahnutie jednoduchšej orientácie zobrazuje len jeden týždeň. Pre zobrazenie iného týždňa slúži tlačidlo, ktoré otvorí zoznam týždňov a v ňom bude možné určitý týždeň vybrať. 
+Kolekcia rastlín funguje ako jednoduchý zoznam obsahujúci jednotlivé rastliny, ich druh a fotku. Po kliknutí na niektorú rastlinu sa užívateľovi zobrazí jej profil. Pre zrýchlenie hľadania rastliny sa nad zoznamom nachádza vyhľadávací bar, ktorý obsahuje aj filtrovanie pomocou lokácie a druhu.
 ### Testovanie
 tu bude napísané, ako sa testovalo (viz zadanie)
 
