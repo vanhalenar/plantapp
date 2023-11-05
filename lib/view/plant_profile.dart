@@ -12,7 +12,10 @@ class PlantProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Plant Profile'),
+        title: Text(
+          '',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: Center(
         child: Padding(
@@ -31,10 +34,7 @@ class PlantProfileCard extends StatelessWidget {
                   SizedBox(height: 24),
                   Text(
                     plant.latin,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -43,13 +43,12 @@ class PlantProfileCard extends StatelessWidget {
             SizedBox(height: 16),             
               Text(
                 'Description',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.labelMedium,
               ),
+              SizedBox(height: 5),
               Text(
                 plant.description,
+                style: Theme.of(context).textTheme.labelSmall,
                 textAlign: TextAlign.left, // Align text to the left
               )
             ],

@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
               color: const Color(0xAA6E7487),
             ),
+            labelSmall: GoogleFonts.josefinSans(
+              fontSize: 14,
+            ),
             labelMedium: GoogleFonts.josefinSans(
               fontSize: 18,
             )),

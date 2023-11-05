@@ -96,10 +96,7 @@ class PlantCard extends StatelessWidget {
                   children: [
                     Text(
                       plant.latin, // Displaying the Latin name of the plant
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     Row(
                       children: [
