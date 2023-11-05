@@ -9,6 +9,7 @@ class Plant {
   final String tips;
   final String fertilizing;
   final String information;
+  final String image;
 
   Plant({
     required this.id,
@@ -21,6 +22,7 @@ class Plant {
     required this.tips,
     required this.fertilizing,
     required this.information,
+    required this.image,
   });
 
   factory Plant.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class Plant {
       tips: json['tips'],
       fertilizing: json['fertilizing'],
       information: json['information'],
+      image: json['image'],
     );
   }
 }

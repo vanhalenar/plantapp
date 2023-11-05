@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'homepage.dart';
-import 'add_plant.dart';
+import 'view/add_plant.dart';
 
 void main() {
   runApp(const MyApp());
