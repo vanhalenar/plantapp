@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       home: NavigationApp(),
       theme: ThemeData(
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         textTheme: TextTheme(
             titleLarge: GoogleFonts.josefinSans(
               fontSize: 24,
@@ -52,7 +53,6 @@ class _NavigationAppState extends State<NavigationApp> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: const Color(0xFFBFD7B5),
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(icon: Icon(Icons.home), label: "Home"),
