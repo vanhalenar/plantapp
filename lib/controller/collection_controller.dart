@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plantapp/model/collection_model.dart';
 
@@ -27,6 +28,16 @@ class CollectionController {
       return "fertilize";
     } else {
       return "problem";
+    }
+  }
+
+  Color blueOrBrown(Plant plant) {
+    if (plant.needWater == 1 && plant.needFertilizer == 0) {
+      return Color(0xFF508991);
+    } else if (plant.needFertilizer == 1 && plant.needWater == 0) {
+      return Color(0xFF9D8858);
+    } else {
+      return Colors.white;
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'homepage.dart';
+import 'view/homepage.dart';
 import 'view/add_plant.dart';
 import 'view/plant_collection.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'controller/collection_controller.dart';
-import 'controller/plant_controller.dart';
+import 'package:plantapp/controller/collection_controller.dart';
+import 'package:plantapp/controller/plant_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -86,6 +86,12 @@ class _PlantCardState extends State<PlantCard> {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: FilledButton.tonal(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll<Color>(
+                                        collectionController.blueOrBrown(
+                                            collectionController.tasks[index])),
+                              ),
                               onPressed: onpressed,
                               child: Text(
                                 collectionController.waterOrFertilize(
