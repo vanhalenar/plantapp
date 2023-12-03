@@ -3,9 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'view/homepage.dart';
 import 'view/add_plant.dart';
 import 'view/plant_collection.dart';
+import 'controller/task_controller.dart';
 
 void main() {
   runApp(const MyApp());
+  //seeders, remove when deploying
+  var taskController = TaskController();
+  taskController.seedFile();
 }
 
 class MyApp extends StatelessWidget {

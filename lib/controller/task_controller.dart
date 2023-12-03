@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plantapp/model/task_model.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class TaskController {
   List<Plant> _tasks = [];
@@ -16,7 +18,18 @@ class TaskController {
     } catch (e) {
       // Handle errors or exceptions
       // ignore: avoid_print
-      print('Error loading data: $e');
+      print('Error loading data from asset: $e');
+    }
+  }
+
+  Future<void> loadPlantsFromFile() async {
+    try {
+      final file = await _localFile;
+      final contents = await file.readAsString();
+      final List<dynamic> jsonData = json.decode(contents);
+      _tasks = jsonData.map((e) => Plant.fromJson(e)).toList();
+    } catch (e) {
+      print('Error loading data from file: $e');
     }
   }
 
@@ -38,5 +51,46 @@ class TaskController {
     } else {
       return Colors.white;
     }
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/tasks.json');
+  }
+
+  void seedIfNoFileExists() async {
+    final file = await _localFile;
+    bool fileExists = await file.exists();
+    if (fileExists) {
+      print('file do be existin doe');
+    } else {
+      print('file aint there brudda');
+      seedFile();
+    }
+  }
+
+  void removeTask(Plant task) {
+    _tasks.remove(task);
+    String encoded = jsonEncode(_tasks);
+    writeTasks(encoded);
+  }
+
+  Future<void> writeTasks(String tasks) async {
+    final file = await _localFile;
+
+    // Write the file
+    file.writeAsString(tasks);
+  }
+
+  void seedFile() async {
+    await loadPlantsFromAsset();
+    String encoded = jsonEncode(_tasks);
+    writeTasks(encoded);
   }
 }

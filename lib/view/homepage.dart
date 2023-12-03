@@ -30,13 +30,15 @@ class _PlantCardState extends State<PlantCard> {
   var plantController = PlantController();
 
   Future<void> loadScreen() async {
-    await taskController.loadPlantsFromAsset();
+    //await taskController.loadPlantsFromAsset();
+    await taskController.loadPlantsFromFile();
     await plantController.loadPlantsFromAsset();
     setState(() {});
   }
 
   @override
   void initState() {
+    taskController.seedIfNoFileExists();
     loadScreen();
     super.initState();
   }
@@ -91,7 +93,11 @@ class _PlantCardState extends State<PlantCard> {
                                         taskController.blueOrBrown(
                                             taskController.tasks[index])),
                               ),
-                              onPressed: onpressed,
+                              onPressed: () {
+                                taskController
+                                    .removeTask(taskController.tasks[index]);
+                                setState(() {});
+                              },
                               child: Text(
                                 taskController.waterOrFertilize(
                                     taskController.tasks[index]),
