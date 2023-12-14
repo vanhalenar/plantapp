@@ -28,7 +28,7 @@ class PlantProfileCard extends StatelessWidget {
               child: Column(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/monstera.jpg'),
+                    backgroundImage: AssetImage(plant.image),
                     radius: 50,
                   ),
                   SizedBox(height: 24),

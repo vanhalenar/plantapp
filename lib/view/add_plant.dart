@@ -86,7 +86,7 @@ class PlantCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/monstera.jpg'),
+                  backgroundImage: AssetImage(plant.image),
                   radius: 30,
                 ),
                 SizedBox(width: 8),
@@ -96,7 +96,6 @@ class PlantCard extends StatelessWidget {
                   children: [
                     Text(
                       plant.latin, // Displaying the Latin name of the plant
-                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     Row(
                       children: [

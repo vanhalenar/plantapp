@@ -23,7 +23,7 @@
         "tips": "Protect from frost, be cautious of overwatering, and provide good drainage for the soil.",
         "fertilizing": "Fertilize sparingly, if at all, during the growing season (spring and summer).",
         "information": "Echinocactus cacti are native to arid regions in North and Central America. They are known for their iconic barrel-like shape and adaptability to harsh, desert conditions.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/echinocactus.jpg"
     },
     {
         "id": 3,
@@ -36,7 +36,7 @@
         "tips": "Maintain high humidity, mist the foliage, and periodically trim dead fronds to encourage new growth.",
         "fertilizing": "Fertilize with a balanced liquid fertilizer every 4-6 weeks during the growing season (spring and summer).",
         "information": "The Boston Fern, native to tropical regions, is prized for its graceful appearance and air-purifying qualities. It has been a popular choice for homes and gardens for many years.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/nephrolepis_exaltata.jpg"
     },
     {
         "id": 4,
@@ -49,11 +49,11 @@
         "tips": "Harvest leaves for culinary use, pinch back for bushier growth, and protect from frost in colder climates.",
         "fertilizing": "Fertilize with a balanced liquid fertilizer every 4-6 weeks during the growing season (spring and summer).",
         "information": "Plectranthus amboinicus is native to Southern and Eastern Africa but is now cultivated in various regions. It is valued for its culinary uses and traditional medicinal properties.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/plectranthus_amboinicus.jpg"
     },
     {
         "id": 5,
-        "latin": "Tillandsia usneoides",
+        "latin": " ",
         "description": "Tillandsia usneoides is an epiphytic bromeliad that drapes gracefully from trees and other surfaces. It creates an enchanting, ethereal appearance in its habitat.",
         "names": "Tillandsia usneoides, Spanish Moss",
         "watering": "Spritz with water regularly to maintain humidity. Absorbs nutrients and moisture from the air and rainfall.",
@@ -62,7 +62,7 @@
         "tips": "Regularly mist with water, provide good air circulation, and avoid heavy fertilization.",
         "fertilizing": "Fertilization is usually not necessary, as Spanish Moss derives nutrients from the air and rain.",
         "information": "Tillandsia usneoides is native to the southeastern United States and parts of Central and South America. It is known for its unique appearance and its role in ecosystems, providing nesting material for birds and habitats for small creatures.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/tillandsia_usneoides.jpg"
     },
     {
         "id": 6,
@@ -75,7 +75,7 @@
         "tips": "Mist the leaves regularly to increase humidity, prune to shape, and keep it away from drafts and temperature extremes.",
         "fertilizing": "Fertilize with a balanced liquid fertilizer every 4-6 weeks during the growing season (spring and summer).",
         "information": "Ficus benjamina is native to Southeast Asia and Australia. It is treasured for its ornamental value but can be finicky about environmental changes.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/ficus_benjamina.jpg"
     },
     {
         "id": 7,
@@ -88,7 +88,7 @@
         "tips": "Mist the foliage to maintain humidity, prune to shape, and watch out for pests, especially when grown indoors.",
         "fertilizing": "Fertilize with a balanced liquid fertilizer every 4-6 weeks during the growing season (spring and summer).",
         "information": "Asparagus setaceus is native to South Africa. It is appreciated for its fine, lacy appearance and is often used in hanging baskets and as a decorative houseplant.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/asparagus_setaceus.jpg"
     },
     {
         "id": 8,
@@ -101,7 +101,7 @@
         "tips": "Prune to shape, dust the leaves regularly, and watch for common indoor plant pests.",
         "fertilizing": "Fertilize with a balanced liquid fertilizer every 4-6 weeks during the growing season (spring and summer).",
         "information": "Heptapleurum arboricola is native to Taiwan and Hainan. It is favored for its attractive, umbrella-shaped foliage and versatility as an indoor or outdoor plant.",
-        "image": "assets/images/monstera.jpg"
+        "image": "assets/images/heptapleurum_arboricola.png"
     }
 ]
 
