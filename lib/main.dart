@@ -75,7 +75,7 @@ class _NavigationAppState extends State<NavigationApp> {
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       ),
       body: <Widget>[
-        const HomePage(),
+        const Homepage(),
         const Achievements(),
         const AddPlant(),
         const Calendar(),

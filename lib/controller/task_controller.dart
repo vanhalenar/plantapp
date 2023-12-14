@@ -2,23 +2,52 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plantapp/model/task_model.dart';
+import 'package:plantapp/model/plant_model.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class TaskController {
-  List<Plant> _tasks = [];
+  List<Task> _tasks = [];
 
-  List<Plant> get tasks => _tasks;
+  List<Plant> _plants = [];
 
-  Future<void> loadPlantsFromAsset() async {
+  List<Task> get tasks => _tasks;
+
+  List<Plant> get plants => _plants;
+
+  Future<void> loadTasksFromAsset() async {
     try {
       final String data = await rootBundle.loadString('assets/tasks.json');
       final List<dynamic> jsonData = json.decode(data);
-      _tasks = jsonData.map((e) => Plant.fromJson(e)).toList();
+      _tasks = jsonData.map((e) => Task.fromJson(e)).toList();
     } catch (e) {
       // Handle errors or exceptions
       // ignore: avoid_print
       print('Error loading data from asset: $e');
+    }
+  }
+
+  Future<void> loadPlantsFromAsset() async {
+    try {
+      // Load the JSON data from the asset
+      final String data =
+          await rootBundle.loadString('assets/plantDatabase.json');
+
+      // Print the loaded JSON data for debugging
+      //print('Loaded JSON Data: $data');
+
+      // Parse the JSON data
+      final List<dynamic> jsonData = json.decode(data);
+
+      // Convert JSON data to Plant objects
+      _plants = jsonData.map((e) => Plant.fromJson(e)).toList();
+
+      // Print the number of plants loaded for debugging
+      //print('Number of Plants Loaded: ${_plants.length}');
+      //print('Loaded Plant IDs: ${_plants.map((plant) => plant.id).join(', ')}');
+    } catch (e) {
+      // Handle errors or exceptions
+      print('Error loading data: $e');
     }
   }
 
@@ -27,13 +56,15 @@ class TaskController {
       final file = await _localFile;
       final contents = await file.readAsString();
       final List<dynamic> jsonData = json.decode(contents);
-      _tasks = jsonData.map((e) => Plant.fromJson(e)).toList();
+      _tasks = jsonData.map((e) => Task.fromJson(e)).toList();
+
+      await loadPlantsFromAsset();
     } catch (e) {
       print('Error loading data from file: $e');
     }
   }
 
-  String waterOrFertilize(Plant plant) {
+  String waterOrFertilize(Task plant) {
     if (plant.needWater == 1 && plant.needFertilizer == 0) {
       return "water";
     } else if (plant.needFertilizer == 1 && plant.needWater == 0) {
@@ -43,7 +74,7 @@ class TaskController {
     }
   }
 
-  Color blueOrBrown(Plant plant) {
+  Color blueOrBrown(Task plant) {
     if (plant.needWater == 1 && plant.needFertilizer == 0) {
       return const Color(0xFF508991);
     } else if (plant.needFertilizer == 1 && plant.needWater == 0) {
@@ -75,7 +106,7 @@ class TaskController {
     }
   }
 
-  void removeTask(Plant task) {
+  void removeTask(Task task) {
     _tasks.remove(task);
     String encoded = jsonEncode(_tasks);
     writeTasks(encoded);
@@ -89,7 +120,7 @@ class TaskController {
   }
 
   void seedFile() async {
-    await loadPlantsFromAsset();
+    await loadTasksFromAsset();
     String encoded = jsonEncode(_tasks);
     writeTasks(encoded);
   }

@@ -1,17 +1,17 @@
-class Plant {
+class Task {
   int databaseId;
   String nickname;
   int needWater;
   int needFertilizer;
 
-  Plant(
+  Task(
       {required this.databaseId,
       required this.nickname,
       required this.needWater,
       required this.needFertilizer});
 
-  factory Plant.fromJson(Map<String, dynamic> json) {
-    return Plant(
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
         databaseId: json["databaseId"],
         nickname: json["nickname"],
         needWater: json["needWater"],
