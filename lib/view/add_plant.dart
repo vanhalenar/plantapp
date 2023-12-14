@@ -43,22 +43,48 @@ class AddPlantState extends State<AddPlant> {
     // Checking if the correct amount of data is loaded
     if (dataLoaded) {
       return Scaffold(
-        body: ListView.builder(
-          itemCount: plants.length,
-          itemBuilder: (context, index) {
-            final plant = plants[index];
-            final uniqueKey = Key('plant_card_${plant.id}');
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlantProfileCard(plant: plant),
-                ));
-              },
-              child: PlantCard(key: uniqueKey, plant: plant),
-            );
-          },
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100),
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top), // Add padding to the top
+          child: AppBar(
+            title: Text(
+              'Plant Finder',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+              ),
+            ),
+            backgroundColor: Color(0xFFBFD7B5),
+            titleSpacing: 10,
+            centerTitle: true,
+           ),
+         ),
         ),
-      );
+        body: Column(
+        children: [
+          SearchBar(), // Place the SearchBar widget here
+          Expanded(
+            // Wrap ListView.builder in an Expanded widget to take the remaining space
+            child: ListView.builder(
+              itemCount: plants.length,
+              itemBuilder: (context, index) {
+                final plant = plants[index];
+                final uniqueKey = Key('plant_card_${plant.id}');
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PlantProfileCard(plant: plant),
+                    ));
+                  },
+                  child: PlantCard(key: uniqueKey, plant: plant),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
     } else {
       // Loading indicator
       return Center(
@@ -67,6 +93,40 @@ class AddPlantState extends State<AddPlant> {
     }
   }
 }
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(left: 30, top: 30, right: 30, bottom: 20),      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Search for plant',
+          prefixIcon: Icon(Icons.search),
+          suffixIcon: Padding(
+            padding: EdgeInsets.all(8), // Adjust the padding as needed
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.camera_alt),
+                SizedBox(width: 8), // Adjust the spacing between icons
+                Icon(Icons.filter_alt),
+              ],
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+      ),
+    );
+  }
+}
+
 
 class PlantCard extends StatelessWidget {
   final Plant plant;
@@ -77,7 +137,7 @@ class PlantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(10),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: SizedBox(
