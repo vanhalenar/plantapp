@@ -93,7 +93,6 @@ class AddPlantState extends State<AddPlant> {
     }
   }
 }
-
 class SearchBar extends StatelessWidget {
   const SearchBar({super.key});
 
@@ -126,8 +125,6 @@ class SearchBar extends StatelessWidget {
     );
   }
 }
-
-
 class PlantCard extends StatelessWidget {
   final Plant plant;
 

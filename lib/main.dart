@@ -31,12 +31,19 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
               color: const Color(0xAA6E7487),
             ),
+            titleSmall: GoogleFonts.josefinSans(
+              fontSize: 20,
+            ),
+            bodyLarge: GoogleFonts.josefinSans(
+              fontSize: 28,
+            ),
             labelSmall: GoogleFonts.josefinSans(
               fontSize: 14,
             ),
             labelMedium: GoogleFonts.josefinSans(
               fontSize: 18,
-            )),
+            )
+            ),
       ),
     );
   }
