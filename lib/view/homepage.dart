@@ -18,33 +18,73 @@ class _HomepageState extends State<Homepage> {
           sizeFactor: animation,
           axis: Axis.horizontal,
           child: const RemoveTaskCard());
-    }, duration: const Duration(milliseconds: 300));
+    }, duration: const Duration(milliseconds: 100));
     taskController.removeTask(taskController.tasks[index]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: taskController.loadPlantsFromFile(),
-          builder: ((context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return SizedBox(
-                  height: 300,
-                  child: AnimatedList(
-                    key: _key,
-                    scrollDirection: Axis.horizontal,
-                    initialItemCount: taskController.tasks.length,
-                    itemBuilder: (context, index, animation) {
-                      return SizeTransition(
-                          sizeFactor: animation,
-                          child: TaskCard(taskController, index, _removeItem));
-                    },
-                  ));
-            } else {
-              return const Text("still loading");
-            }
-          })),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: AppBar(
+            title: const Text(
+              'Welcome, Susan',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+              ),
+            ),
+            backgroundColor: const Color(0xFFBFD7B5),
+            titleSpacing: 10,
+            centerTitle: true,
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Tasks for today',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontSize: 28),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+          ),
+          FutureBuilder(
+              future: taskController.loadPlantsFromFile(),
+              builder: ((context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return SizedBox(
+                      height: 300,
+                      child: AnimatedList(
+                        key: _key,
+                        scrollDirection: Axis.horizontal,
+                        initialItemCount: taskController.tasks.length,
+                        itemBuilder: (context, index, animation) {
+                          return SizeTransition(
+                              sizeFactor: animation,
+                              child:
+                                  TaskCard(taskController, index, _removeItem));
+                        },
+                      ));
+                } else {
+                  return const Text("still loading");
+                }
+              }))
+        ],
+      ),
     );
   }
 }
@@ -152,9 +192,11 @@ class RemoveTaskCard extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: FilledButton.tonal(
-                      style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.green),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll<Color?>(
+                            Theme.of(context)
+                                .bottomNavigationBarTheme
+                                .selectedItemColor),
                       ),
                       onPressed: () {},
                       child: Text(
