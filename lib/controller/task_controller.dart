@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +24,6 @@ class TaskController {
       _tasks = jsonData.map((e) => Task.fromJson(e)).toList();
     } catch (e) {
       // Handle errors or exceptions
-      // ignore: avoid_print
       print('Error loading data from asset: $e');
     }
   }

@@ -2,13 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:plantapp/model/plant_model.dart';
+import 'package:plantapp/model/coll_model.dart';
+import 'package:plantapp/controller/coll_controller.dart';
 
 class PlantProfileCard extends StatelessWidget {
   final Plant plant;
+  final CollController collController; 
 
-  const PlantProfileCard({required this.plant, Key? key}) : super(key: key);
+  const PlantProfileCard({required this.plant, required this.collController, Key? key}) : super(key: key);
 
   void _showAddPlantBottomSheet(BuildContext context) {
+
+  TextEditingController nicknameController = TextEditingController();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -109,10 +115,20 @@ class PlantProfileCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-             ElevatedButton(
-                onPressed: () {
-                  // Implement functionality to add a plant
-                },
+              ElevatedButton(
+                onPressed: () async {
+                // Create a Collection object with the entered data
+                Collection newPlant = Collection(
+                  databaseId: 505, // Use the appropriate ID from your Plant object
+                  nickname: nicknameController.text,
+                );
+
+                // Save the new plant using CollController
+                await collController.savePlant(newPlant);
+
+                // Close the bottom sheet
+                // Navigator.of(context).pop();
+              },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFBFD7B5), // Background color
                   foregroundColor: Color(0xFF39633D), // Text color

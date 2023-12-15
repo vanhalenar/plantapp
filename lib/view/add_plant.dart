@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:plantapp/controller/plant_controller.dart';
 import 'package:plantapp/view/plant_profile.dart';
 import 'package:plantapp/model/plant_model.dart';
+import 'package:plantapp/controller/coll_controller.dart';
 
 class AddPlant extends StatefulWidget {
   const AddPlant({Key? key}) : super(key: key);
@@ -40,6 +41,8 @@ class AddPlantState extends State<AddPlant> {
 
   @override
   Widget build(BuildContext context) {
+    final CollController collController = CollController();
+
     // Checking if the correct amount of data is loaded
     if (dataLoaded) {
       return Scaffold(
@@ -74,7 +77,7 @@ class AddPlantState extends State<AddPlant> {
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PlantProfileCard(plant: plant),
+                      builder: (context) => PlantProfileCard(plant: plant, collController: collController),
                     ));
                   },
                   child: PlantCard(key: uniqueKey, plant: plant),
