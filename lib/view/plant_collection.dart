@@ -49,7 +49,7 @@ class _PlantInstState extends State<PlantInst> {
           crossAxisCount: 2,
           childAspectRatio: 0.67
         ),
-        itemCount: collCont.plants.length,
+        itemCount: collCont.collection.length,
         itemBuilder:(context, index) {
           return Card(
             margin: const EdgeInsets.all(15),
@@ -78,7 +78,7 @@ class _PlantInstState extends State<PlantInst> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        collCont.plants[index].nickname, 
+                        collCont.collection[index].nickname, 
                         textAlign: TextAlign.start,
                         style: Theme.of(context).textTheme.titleLarge
                       ),
@@ -86,7 +86,7 @@ class _PlantInstState extends State<PlantInst> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        plantCont.plants[collCont.plants[index].databaseId-1].latin, 
+                        plantCont.plants[collCont.collection[index].databaseId-1].latin, 
                         style: Theme.of(context).textTheme.titleMedium,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
