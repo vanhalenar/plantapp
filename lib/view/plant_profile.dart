@@ -7,21 +7,22 @@ import 'package:plantapp/controller/coll_controller.dart';
 
 class PlantProfileCard extends StatelessWidget {
   final Plant plant;
-  final CollController collController; 
+  final CollController collController;
 
-  const PlantProfileCard({required this.plant, required this.collController, Key? key}) : super(key: key);
+  const PlantProfileCard(
+      {required this.plant, required this.collController, Key? key})
+      : super(key: key);
 
   void _showAddPlantBottomSheet(BuildContext context) {
-
-  TextEditingController nicknameController = TextEditingController();
+    TextEditingController nicknameController = TextEditingController();
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      
       builder: (BuildContext bc) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.75, // Set to half of the screen
+          height: MediaQuery.of(context).size.height *
+              0.75, // Set to half of the screen
           padding: EdgeInsets.all(20),
           child: ListView(
             children: <Widget>[
@@ -51,10 +52,12 @@ class PlantProfileCard extends StatelessWidget {
               ),
               SizedBox(height: 8),
               TextField(
+                controller: nicknameController,
                 decoration: InputDecoration(
                   hintText: 'Filomena',
                   hintStyle: TextStyle(color: Colors.grey),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -66,7 +69,8 @@ class PlantProfileCard extends StatelessWidget {
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
                 onTap: () {
                   // Implement date picker functionality
@@ -80,7 +84,8 @@ class PlantProfileCard extends StatelessWidget {
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
                 onTap: () {
                   // Implement date picker functionality
@@ -94,7 +99,8 @@ class PlantProfileCard extends StatelessWidget {
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
                 onTap: () {
                   // Implement date picker functionality
@@ -110,31 +116,35 @@ class PlantProfileCard extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'birthday present from sydney',
                   hintStyle: TextStyle(color: Colors.grey),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                // Create a Collection object with the entered data
-                Collection newPlant = Collection(
-                  databaseId: 505, // Use the appropriate ID from your Plant object
-                  nickname: nicknameController.text,
-                );
+                  // Create a Collection object with the entered data
+                  Collection newPlant = Collection(
+                    databaseId: plant
+                        .id, // Use the appropriate ID from your Plant object
+                    nickname: nicknameController.text,
+                  );
 
-                // Save the new plant using CollController
-                await collController.savePlant(newPlant);
+                  // Save the new plant using CollController
+                  await collController.savePlant(newPlant);
 
-                // Close the bottom sheet
-                // Navigator.of(context).pop();
-              },
+                  // Close the bottom sheet
+                  // Navigator.of(context).pop();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFBFD7B5), // Background color
                   foregroundColor: Color(0xFF39633D), // Text color
-                  padding: EdgeInsets.symmetric(horizontal: 16), // Adjust horizontal padding
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16), // Adjust horizontal padding
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Adjust border radius as needed
+                    borderRadius: BorderRadius.circular(
+                        8), // Adjust border radius as needed
                   ),
                 ),
                 child: Text('Add Plant'),
@@ -145,7 +155,6 @@ class PlantProfileCard extends StatelessWidget {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +167,7 @@ class PlantProfileCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: Color(0xFFBFD7B5), 
+              color: Color(0xFFBFD7B5),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Center(
@@ -175,187 +184,188 @@ class PlantProfileCard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-           Container(
-            margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                Center(
-                  child: Text(
-                    plant.latin,
-                    style: Theme.of(context).textTheme.bodyLarge,
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 16),
+                  Center(
+                    child: Text(
+                      plant.latin,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Container(
-                  alignment: Alignment.center,
-                  child: InkWell(
-                    onTap: () {
-                      _showAddPlantBottomSheet(context);
-                    },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFBFD7B5), 
-                      ),
-                      child: Center(
-                        child: Text(
-                          '+',
-                          style: TextStyle(
-                            color: Color(0xFF39633D),
-                            fontSize: 24,
+                  SizedBox(height: 8),
+                  Container(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {
+                        _showAddPlantBottomSheet(context);
+                      },
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFBFD7B5),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '+',
+                            style: TextStyle(
+                              color: Color(0xFF39633D),
+                              fontSize: 24,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2), // Adding margin only to the bottom
-                  child: Text(
-                    'Description',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  SizedBox(height: 20),
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(
+                        bottom: 2), // Adding margin only to the bottom
+                    child: Text(
+                      'Description',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2), 
-                  child: Text(
-                    'Names',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.description,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.names,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Watering',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Names',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.watering,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Fertilizing',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.names,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.fertilizing,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Difficulty',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Watering',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.difficulty,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Light',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.watering,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.light,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Tips',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Fertilizing',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.tips,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    'Historical & Ethnic Information',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: TextDecoration.underline,
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.fertilizing,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    plant.information,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Difficulty',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
+                    ),
                   ),
-                ),
-              ],
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.difficulty,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Light',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.light,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Tips',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.tips,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Historical & Ethnic Information',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                          ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Text(
+                      plant.information,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

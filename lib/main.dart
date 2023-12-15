@@ -4,12 +4,15 @@ import 'view/homepage.dart';
 import 'view/add_plant.dart';
 import 'view/plant_collection.dart';
 import 'controller/task_controller.dart';
+import 'controller/coll_controller.dart';
 
 void main() {
   runApp(const MyApp());
   //seeders, remove when deploying
   var taskController = TaskController();
+  var collController = CollController();
   taskController.seedFile();
+  collController.seedFile();
 }
 
 class MyApp extends StatelessWidget {
@@ -42,8 +45,7 @@ class MyApp extends StatelessWidget {
             ),
             labelMedium: GoogleFonts.josefinSans(
               fontSize: 18,
-            )
-            ),
+            )),
       ),
     );
   }
