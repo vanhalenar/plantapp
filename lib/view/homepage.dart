@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
           FutureBuilder(
-              future: taskController.loadPlantsFromFile(),
+              future: taskController.loadTasksFromFile(),
               builder: ((context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   return SizedBox(

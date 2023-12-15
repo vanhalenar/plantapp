@@ -22,6 +22,8 @@ class TaskController {
       final String data = await rootBundle.loadString('assets/tasks.json');
       final List<dynamic> jsonData = json.decode(data);
       _tasks = jsonData.map((e) => Task.fromJson(e)).toList();
+
+      filterTodayTasks();
     } catch (e) {
       // Handle errors or exceptions
       print('Error loading data from asset: $e');
@@ -52,17 +54,29 @@ class TaskController {
     }
   }
 
-  Future<void> loadPlantsFromFile() async {
+  Future<void> loadTasksFromFile() async {
     try {
       final file = await _localFile;
       final contents = await file.readAsString();
       final List<dynamic> jsonData = json.decode(contents);
       _tasks = jsonData.map((e) => Task.fromJson(e)).toList();
 
+      filterTodayTasks();
+
       await loadPlantsFromAsset();
     } catch (e) {
       print('Error loading data from file: $e');
     }
+  }
+
+  void filterTodayTasks() {
+    List<Task> temp = [];
+    for (final task in _tasks) {
+      if (DateUtils.isSameDay(task.date, DateTime.now())) {
+        temp.add(task);
+      }
+    }
+    _tasks = temp;
   }
 
   String waterOrFertilize(Task plant) {
