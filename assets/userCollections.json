@@ -1,0 +1,19 @@
+[
+    {
+        "collName" : "_DEFAULT_",
+        "plantIds" : [1],
+        "plantNames" : ["Sal"]
+    },
+
+    {
+        "collName" : "Favorites",
+        "plantIds" : [8, 6],
+        "plantNames" : ["Jenny", "Joey"]
+    },
+
+    {
+        "collName" : "Gifts",
+        "plantIds" : [7],
+        "plantNames" : ["Eldrani, the Chosen One"]
+    }
+]
