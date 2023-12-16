@@ -4,10 +4,12 @@ class Plant {
   final String description;
   final String names;
   final String watering;
+  final int wateringPeriod;
   final String difficulty;
   final String light;
   final String tips;
   final String fertilizing;
+  final int fertilizingPeriod;
   final String information;
   final String image;
 
@@ -17,10 +19,12 @@ class Plant {
     required this.description,
     required this.names,
     required this.watering,
+    required this.wateringPeriod,
     required this.difficulty,
     required this.light,
     required this.tips,
     required this.fertilizing,
+    required this.fertilizingPeriod,
     required this.information,
     required this.image,
   });
@@ -32,10 +36,12 @@ class Plant {
       description: json['description'],
       names: json['names'],
       watering: json['watering'],
+      wateringPeriod: json['wateringPeriod'],
       difficulty: json['difficulty'],
       light: json['light'],
       tips: json['tips'],
       fertilizing: json['fertilizing'],
+      fertilizingPeriod: json['fertilizingPeriod'],
       information: json['information'],
       image: json['image'],
     );

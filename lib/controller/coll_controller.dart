@@ -86,4 +86,21 @@ class CollController {
     await loadPlantsFromAsset();
     _writeToFile(_collection);
   }
+
+  int calculateDaysUntilNextAction(DateTime lastDate, int period) {
+  // Calculate the next watering date
+  DateTime nextDate = lastDate.add(Duration(days: period + 1));
+  nextDate = DateTime(nextDate.year, nextDate.month, nextDate.day);
+
+  DateTime currentDate = DateTime.now();
+  currentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
+
+  int daysUntil = nextDate.difference(currentDate).inDays;
+
+  // If the result is negative, set it to 0 (meaning the plant should have already been watered)
+  daysUntil = daysUntil < 0 ? 0 : daysUntil;
+
+  return daysUntil;
+}
+
 }

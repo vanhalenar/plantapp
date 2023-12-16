@@ -78,15 +78,27 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                 'Date Planted',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              TextField(
+               TextField(
                 controller: datePlantedController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
-                onTap: () {
-                  // Implement date picker functionality
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: datePlantedController.text.isNotEmpty
+                        ? DateTime.parse(datePlantedController.text)
+                        : DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (selectedDate != null) {
+                    // Format the selected date and update the controller
+                    String formattedDate = selectedDate.toLocal().toString();
+                    datePlantedController.text = formattedDate;
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -98,11 +110,23 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                 controller: lastWateredController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
-                onTap: () {
-                  // Implement date picker functionality
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: lastWateredController.text.isNotEmpty
+                        ? DateTime.parse(lastWateredController.text)
+                        : DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (selectedDate != null) {
+                    // Format the selected date and update the controller
+                    String formattedDate = selectedDate.toLocal().toString();
+                    lastWateredController.text = formattedDate;
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -110,15 +134,27 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                 'Last Fertilized',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              TextField(
+               TextField(
                 controller: lastFertilizedController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
-                onTap: () {
-                  // Implement date picker functionality
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: lastFertilizedController.text.isNotEmpty
+                        ? DateTime.parse(lastFertilizedController.text)
+                        : DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (selectedDate != null) {
+                    // Format the selected date and update the controller
+                    String formattedDate = selectedDate.toLocal().toString();
+                    lastFertilizedController.text = formattedDate;
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -140,13 +176,26 @@ class PlantProfileCardState extends State<PlantProfileCard> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async{
+                   // Convert text representations of dates to DateTime objects
+                  DateTime datePlanted = datePlantedController.text.isNotEmpty
+                      ? DateTime.parse(datePlantedController.text)
+                      : DateTime.now();
+
+                  DateTime lastWatered = lastWateredController.text.isNotEmpty
+                      ? DateTime.parse(lastWateredController.text)
+                      : DateTime.now();
+
+                  DateTime lastFertilized = lastFertilizedController.text.isNotEmpty
+                      ? DateTime.parse(lastFertilizedController.text)
+                      : DateTime.now();
+                      
                   // Create a Collection object with the entered data
                   Collection newPlant = Collection(
                     databaseId: widget.plant.id, 
                     nickname: nicknameController.text,
-                    datePlanted: datePlantedController.text,
-                    lastWatered: lastWateredController.text,
-                    lastFertilized: lastFertilizedController.text,
+                    datePlanted: datePlanted,
+                    lastWatered: lastWatered,
+                    lastFertilized: lastFertilized,
                     notes: notesController.text,
                   );
 

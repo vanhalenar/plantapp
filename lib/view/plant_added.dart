@@ -170,6 +170,10 @@ class PlantAddedState extends State<PlantAdded> {
 
   @override
   Widget build(BuildContext context) {
+
+    int daysUntilNextWatering = widget.collController.calculateDaysUntilNextAction(widget.plant.lastWatered, widget.plantType.wateringPeriod);
+    int daysUntilNextFertilizing = widget.collController.calculateDaysUntilNextAction(widget.plant.lastFertilized, widget.plantType.fertilizingPeriod);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
@@ -201,10 +205,10 @@ class PlantAddedState extends State<PlantAdded> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    widget.plant.datePlanted,
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
+                  // Text(
+                  //   DateFormat('yyyy-MM-dd').format(widget.plant.datePlanted),
+                  //   style: Theme.of(context).textTheme.labelSmall,
+                  // ),
                   Text(
                     widget.plant.nickname,
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -265,7 +269,7 @@ class PlantAddedState extends State<PlantAdded> {
                           children: [
                             Text('water in', style: Theme.of(context).textTheme.labelSmall),
                             SizedBox(height: 4),
-                            Text('10', style: Theme.of(context).textTheme.titleLarge),
+                            Text('$daysUntilNextWatering', style: Theme.of(context).textTheme.titleLarge),
                             Text('days', style: Theme.of(context).textTheme.labelSmall),
                           ],
                         ),
@@ -282,7 +286,7 @@ class PlantAddedState extends State<PlantAdded> {
                           children: [
                             Text('fertilize in', style: Theme.of(context).textTheme.labelSmall),
                             SizedBox(height: 4),
-                            Text('21', style: Theme.of(context).textTheme.titleLarge),
+                            Text('$daysUntilNextFertilizing', style: Theme.of(context).textTheme.titleLarge),
                             Text('days', style: Theme.of(context).textTheme.labelSmall),
                           ],
                         ),
