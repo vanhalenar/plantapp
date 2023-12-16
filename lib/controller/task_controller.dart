@@ -3,10 +3,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plantapp/model/coll_model.dart';
 import 'package:plantapp/model/task_model.dart';
 import 'package:plantapp/model/plant_model.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'plant_controller.dart';
+import 'coll_controller.dart';
 
 class TaskController {
   List<Task> _tasks = [];
@@ -125,6 +128,72 @@ class TaskController {
     _tasks.remove(task);
     String encoded = jsonEncode(_tasks);
     writeTasks(encoded);
+
+    _scheduleNewTask(task);
+  }
+
+  void _scheduleNewTask(Task task) async {
+    PlantController plantController = PlantController();
+    await plantController.loadPlantsFromAsset();
+
+    int waterInterval =
+        plantController.plants[task.databaseId - 1].wateringPeriod;
+
+    int fertilizeInterval =
+        plantController.plants[task.databaseId - 1].fertilizingPeriod;
+
+    DateTime newDate;
+
+    if (task.needFertilizer == 1) {
+      newDate = task.date.add(Duration(days: waterInterval));
+    } else if (task.needWater == 1) {
+      newDate = task.date.add(Duration(days: fertilizeInterval));
+    } else
+      print("adding default duration, something went wrong");
+
+    newDate = DateTime.now().add(const Duration(days: 7));
+
+    Task newTask = Task(
+        databaseId: task.databaseId,
+        nickname: task.nickname,
+        needWater: task.needWater,
+        needFertilizer: task.needFertilizer,
+        date: newDate);
+
+    _tasks.add(newTask);
+
+    String encoded = jsonEncode(_tasks);
+
+    await writeTasks(encoded);
+
+    CollController collController = CollController();
+
+    await collController.loadPlantsFromFile();
+
+    List<Collection> collection = collController.collection;
+    Collection? temp;
+    for (final log in collection) {
+      if ((log.databaseId == task.databaseId) &&
+          log.nickname == task.nickname) {
+        temp = log;
+        collection.remove(log);
+        break;
+      }
+    }
+
+    if (temp == null) {
+      print("wrong, plant not found in collection i think");
+    } else {
+      if (task.needWater == 1) {
+        temp.lastWatered = DateTime.now();
+      } else if (task.needFertilizer == 1) {
+        temp.lastFertilized = DateTime.now();
+      } else {
+        print("invalid task!");
+      }
+
+      await collController.updatePlant(temp);
+    }
   }
 
   Future<void> writeTasks(String tasks) async {

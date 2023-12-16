@@ -107,8 +107,9 @@ class TaskCard extends StatelessWidget {
           width: 150,
           child: Column(
             children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/monstera.jpg'),
+              CircleAvatar(
+                backgroundImage: AssetImage(taskController
+                    .plants[taskController.tasks[index].databaseId - 1].image),
                 radius: 40,
               ),
               Align(
@@ -168,9 +169,11 @@ class RemoveTaskCard extends StatelessWidget {
           width: 150,
           child: Column(
             children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/monstera.jpg'),
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
                 radius: 40,
+                child: Icon(Icons.check_circle,
+                    color: Theme.of(context).primaryColor, size: 80),
               ),
               Align(
                 alignment: Alignment.centerLeft,
