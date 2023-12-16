@@ -58,6 +58,30 @@ class CollController {
     }
   }
 
+  Future<void> updatePlant(Collection updatedPlant) async {
+    await loadPlantsFromFile();
+    final index = _collection.indexWhere((plant) => plant.databaseId == updatedPlant.databaseId);
+    
+    if (index != -1) {
+      _collection[index] = updatedPlant;
+      await _writeToFile(_collection);
+    } else {
+      // Handle the case where the plant to update is not found
+      print('Plant not found for update: ${updatedPlant.databaseId}');
+    }
+  }
+
+  Future<Collection> getPlant(int databaseId) async {
+    await loadPlantsFromFile();
+    return _collection.firstWhere((plant) => plant.databaseId == databaseId);
+  }
+
+  Future<void> deletePlant(Collection plantToDelete) async {
+    await loadPlantsFromFile();
+    _collection.removeWhere((plant) => plant.databaseId == plantToDelete.databaseId);
+    await _writeToFile(_collection);
+  }
+
   void seedFile() async {
     await loadPlantsFromAsset();
     _writeToFile(_collection);
