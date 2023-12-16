@@ -3,39 +3,34 @@
             "databaseId" : 1,
             "nickname" : "Sal",
             "needWater" : 1,
-            "needFertilizer" : 0,
-            "date" : "2023-12-16"
+            "needFertilizer" : 0
         },
 
         {
             "databaseId" : 6,
             "nickname" : "Joey",
             "needWater" : 1,
-            "needFertilizer": 0,
-            "date" : "2023-12-16"
+            "needFertilizer": 0
         },
 
         {
             "databaseId" : 7,
             "nickname" : "Eldrani, the Chosen One",
             "needWater" : 0,
-            "needFertilizer": 1,
-            "date" : "2023-12-16"
+            "needFertilizer": 1
         },
 
         {
             "databaseId" : 8,
             "nickname" : "Jenny",
             "needWater" : 1,
-            "needFertilizer": 0,
-            "date" : "2023-12-16"
+            "needFertilizer": 0
         },
 
         {
             "databaseId" : 8,
             "nickname" : "Jenny",
             "needWater" : 0,
-            "needFertilizer": 1,
-            "date" : "2023-12-16"
+            "needFertilizer": 1
         }
     ]
