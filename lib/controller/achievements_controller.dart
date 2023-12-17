@@ -1,5 +1,6 @@
-import 'dart:io';
+// ignore_for_file: avoid_print
 
+import 'dart:io';
 import 'package:plantapp/model/achievement_model.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';

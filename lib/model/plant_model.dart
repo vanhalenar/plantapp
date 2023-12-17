@@ -1,3 +1,8 @@
+/*
+  Author: Karolína Pirohová
+  Description: Plant class represents information about a plant, including its properties and a factory method for JSON deserialization.
+*/
+
 class Plant {
   final int id;
   final String latin;
