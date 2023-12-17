@@ -18,7 +18,7 @@ class _HomepageState extends State<Homepage> {
           sizeFactor: animation,
           axis: Axis.horizontal,
           child: const RemoveTaskCard());
-    }, duration: const Duration(milliseconds: 100));
+    }, duration: const Duration(milliseconds: 200));
     taskController.removeTask(taskController.tasks[index]);
   }
 
