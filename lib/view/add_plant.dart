@@ -14,6 +14,8 @@ class AddPlant extends StatefulWidget {
 
 class AddPlantState extends State<AddPlant> {
   List<Plant> plants = [];
+  List<Plant> allPlants = [];
+
   bool dataLoaded = false; // Flag to track whether data is loaded
 
   @override
@@ -31,9 +33,20 @@ class AddPlantState extends State<AddPlant> {
       setState(() {
         // Use the data from the same instance of PlantController
         plants = plantController.plants; 
+        allPlants = plantController.plants;
         dataLoaded = true;
       });
     }
+  }
+
+  void filterPlants(String query) {
+    setState(() {
+      plants = allPlants
+          .where((plant) =>
+              RegExp('^${RegExp.escape(query)}', caseSensitive: false)
+                  .hasMatch(plant.latin))
+          .toList();
+    });
   }
 
   @override
@@ -60,7 +73,7 @@ class AddPlantState extends State<AddPlant> {
         ),
         body: Column(
         children: [
-          SearchBar(), 
+          SearchBar(filterPlants: filterPlants),
           Expanded(
             child: ListView.builder(
               itemCount: plants.length,
@@ -90,22 +103,29 @@ class AddPlantState extends State<AddPlant> {
   }
 }
 class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
+  final Function(String) filterPlants;
+
+  const SearchBar({Key? key, required this.filterPlants}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left: 30, top: 30, right: 30, bottom: 20),      child: TextField(
+      margin: EdgeInsets.only(left: 30, top: 30, right: 30, bottom: 20),
+      child: TextField(
+        onChanged: (value) {
+          // Call the filterPlants function with the search query
+          filterPlants(value);
+        },
         decoration: InputDecoration(
           hintText: 'Search for plant',
           prefixIcon: Icon(Icons.search),
           suffixIcon: Padding(
-            padding: EdgeInsets.all(8), 
+            padding: EdgeInsets.all(8),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(Icons.camera_alt),
-                SizedBox(width: 8), 
+                SizedBox(width: 8),
                 Icon(Icons.filter_alt),
               ],
             ),

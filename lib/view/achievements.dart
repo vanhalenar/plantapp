@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/achievements_controller.dart';
 import 'package:plantapp/controller/plant_controller.dart';
