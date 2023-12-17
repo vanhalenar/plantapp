@@ -40,7 +40,7 @@ class _AchievementsState extends State<Achievements> {
         children: [
           FutureBuilder(
               future: Future.wait([
-                achievementsController.loadAchievementsFromAsset(),
+                achievementsController.loadAchievementsFromFile(),
                 plantController.loadPlantsFromAsset()
               ]),
               builder: ((context, snapshot) {
