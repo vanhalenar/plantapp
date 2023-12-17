@@ -213,7 +213,7 @@ class _PlantInstState extends State<PlantInst> {
                     await collCont.addPlantToCollection(index, selectedCollectionIndex);
                     Navigator.of(context).pop();
                   },
-                  child: Text('${collCont.colls[selectedCollectionIndex].plantNames[index]}'),
+                  child: Text('${collCont.colls[0].plantNames[index]}'),
                 ),
               ),
             ),
