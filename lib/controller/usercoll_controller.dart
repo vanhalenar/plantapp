@@ -1,3 +1,10 @@
+/*
+  Author: Tomáš Mikát
+  Description: Controller for page for user's collections
+*/
+
+// ignore_for_file: prefer_const_constructors, avoid_print, prefer_const_literals_to_create_immutables
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -16,7 +23,6 @@ class UserCollController {
       final List<dynamic> jsonData = json.decode(data);
       _colls = jsonData.map((e) => UserColl.fromJson(e)).toList();
     } catch (e) {
-      // ignore: avoid_print
       print('Error loading data: $e');
     }
   }
@@ -48,10 +54,12 @@ class UserCollController {
     }
   }
 
-  Future<void> newCollection(UserColl newColl) async {
+  Future<void> newCollection(String collName) async {
     await loadCollectionsFromFile();
-    _colls.add(newColl);
-    print("collName: ${newColl.collName}");
+    _colls.add(UserColl(
+      collName: collName, 
+      plantIds: [], 
+      plantNames: []));
     await _writeToFile(_colls);
   }
 
@@ -87,11 +95,6 @@ class UserCollController {
     _colls[collIndex].plantIds.removeAt(plantIndex);
     _colls[collIndex].plantNames.removeAt(plantIndex);
     await _writeToFile(_colls);
-  }
-
-  Future<UserColl> getCollection(int collName) async {
-    await loadCollectionsFromFile();
-    return _colls.firstWhere((coll) => coll.collName == collName);
   }
 
   void seedFile() async {
