@@ -1,3 +1,9 @@
+/*
+  Author: Karolína Pirohová
+  Description: This file contains the PlantController class, responsible for managing plant data.
+    It includes the loading of plant data from the 'plantDatabase.json' asset.
+    The class provides a list of Plant objects through the 'plants' getter.
+*/
 // ignore_for_file: avoid_print
 
 import 'dart:convert';

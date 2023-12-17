@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/achievements_controller.dart';
 import 'package:plantapp/controller/plant_controller.dart';
@@ -40,8 +42,8 @@ class _AchievementsState extends State<Achievements> {
         children: [
           FutureBuilder(
               future: Future.wait([
-                achievementsController.loadAchievementsFromAsset(),
-                plantController.loadPlantsFromAsset()
+                achievementsController.loadAchievementsFromFile(),
+                plantController.loadPlantsFromAsset(),
               ]),
               builder: ((context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
@@ -180,41 +182,81 @@ class AchievementCard extends StatelessWidget {
                 ],
               ),
               Spacer(), // Added a spacer to push the info icon to the right
-              Icon(Icons.emoji_events, color: doneOrNot(achievement)),
+              Column(children: [TextOrIcon(achievement)]),
             ],
           ),
         ),
       ),
     );
   }
-
-  Color doneOrNot(Achievement achievement) {
-    if (achievement.current == achievement.max) {
-      return ColorScheme.fromSeed(seedColor: Colors.green).primary;
-    } else {
-      return Color(0xAA6E7487);
-    }
-  }
 }
 
-class LineProgOrNot extends StatelessWidget {
+class LineProgOrNot extends StatefulWidget {
   const LineProgOrNot(this.achievement, {super.key});
 
   final Achievement achievement;
 
   @override
+  State<LineProgOrNot> createState() => _LineProgOrNotState(achievement);
+}
+
+class _LineProgOrNotState extends State<LineProgOrNot>
+    with TickerProviderStateMixin {
+  _LineProgOrNotState(this.achievement);
+
+  late AnimationController controller;
+  final Achievement achievement;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      /// [AnimationController]s can be created with `vsync: this` because of
+      /// [TickerProviderStateMixin].
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.animateTo(achievement.current / achievement.max);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (achievement.current < achievement.max) {
+    if (widget.achievement.current < widget.achievement.max) {
       return SizedBox(
           height: 10,
           width: 200,
-          child: LinearProgressIndicator(
-              value: achievement.current / achievement.max));
+          child: LinearProgressIndicator(value: controller.value));
     } else {
       return const SizedBox(
         height: 10,
         width: 200,
       );
+    }
+  }
+}
+
+class TextOrIcon extends StatelessWidget {
+  const TextOrIcon(this.achievement, {super.key});
+  final Achievement achievement;
+
+  @override
+  Widget build(BuildContext context) {
+    if (achievement.current < achievement.max) {
+      return Text(
+        "${achievement.current}/${achievement.max}",
+        style: Theme.of(context).textTheme.labelMedium,
+      );
+    } else {
+      return Icon(Icons.emoji_events,
+          color: ColorScheme.fromSeed(seedColor: Colors.green).primary);
     }
   }
 }

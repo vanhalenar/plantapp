@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, curly_braces_in_flow_control_structures
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'plant_controller.dart';
 import 'coll_controller.dart';
+import 'achievements_controller.dart';
 
 class TaskController {
   List<Task> _tasks = [];
@@ -129,6 +130,8 @@ class TaskController {
     String encoded = jsonEncode(_tasks);
     writeTasks(encoded);
 
+    AchievementsController achievementsController = AchievementsController();
+    achievementsController.incrementAchievement(task);
     _scheduleNewTask(task);
   }
 

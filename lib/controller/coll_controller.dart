@@ -1,3 +1,11 @@
+/*
+  Author: Karolína Pirohová
+  Description: This file contains the CollController class, responsible for managing collections of plants.
+    It includes methods for loading plant data from an asset, saving new plants, updating existing plants,
+    retrieving a specific plant, deleting a plant, and performing calculations related to plant actions.
+    The class uses the PlantController and TaskController classes for additional functionality.
+*/
+
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
@@ -8,6 +16,7 @@ import 'package:plantapp/model/coll_model.dart';
 import 'package:plantapp/model/task_model.dart';
 import 'task_controller.dart';
 import 'plant_controller.dart';
+
 
 class CollController {
   List<Collection> _collection = [];
@@ -26,45 +35,61 @@ class CollController {
   }
 
   Future<void> savePlant(Collection newPlant) async {
-    await loadPlantsFromFile();
-    _collection.add(newPlant);
-    print("databaseId: ${newPlant.databaseId}");
-    await _writeToFile(_collection);
+  await loadPlantsFromFile();
+  _collection.add(newPlant);
+  print("databaseId: ${newPlant.databaseId}");
 
-    TaskController taskController = TaskController();
-    await taskController.loadTasksFromFile();
+  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+  String imageDirectory = "${appDocumentsDirectory.path}/images";
 
-    PlantController plantController = PlantController();
-    await plantController.loadPlantsFromAsset();
-    int waterInterval =
-        plantController.plants[newPlant.databaseId - 1].wateringPeriod;
-    int fertilizeInterval =
-        plantController.plants[newPlant.databaseId - 1].fertilizingPeriod;
+  // Create the directory if it doesn't exist
+  await Directory(imageDirectory).create(recursive: true);
 
-    DateTime waterDate =
-        newPlant.lastWatered.add(Duration(days: waterInterval));
-    DateTime fertilizeDate =
-        newPlant.lastFertilized.add(Duration(days: fertilizeInterval));
+  String imagePath = "$imageDirectory/${newPlant.databaseId}.jpg";
 
-    Task waterTask = Task(
-        databaseId: newPlant.databaseId,
-        nickname: newPlant.nickname,
-        needWater: 1,
-        needFertilizer: 0,
-        date: waterDate);
-
-    Task fertilizeTask = Task(
-        databaseId: newPlant.databaseId,
-        nickname: newPlant.nickname,
-        needWater: 0,
-        needFertilizer: 1,
-        date: fertilizeDate);
-
-    taskController.tasks.add(waterTask);
-    taskController.tasks.add(fertilizeTask);
-    String encoded = jsonEncode(taskController.tasks);
-    taskController.writeTasks(encoded);
+  // Save the image file
+  if (newPlant.imageFile != null) {
+    // Save the image file to the specified path
+    await newPlant.imageFile!.copy(imagePath);
+    newPlant.photo = imagePath;
   }
+
+  await _writeToFile(_collection);
+
+  TaskController taskController = TaskController();
+  await taskController.loadTasksFromFile();
+
+  PlantController plantController = PlantController();
+  await plantController.loadPlantsFromAsset();
+  int waterInterval =
+      plantController.plants[newPlant.databaseId - 1].wateringPeriod;
+  int fertilizeInterval =
+      plantController.plants[newPlant.databaseId - 1].fertilizingPeriod;
+
+  DateTime waterDate =
+      newPlant.lastWatered.add(Duration(days: waterInterval));
+  DateTime fertilizeDate =
+      newPlant.lastFertilized.add(Duration(days: fertilizeInterval));
+
+  Task waterTask = Task(
+      databaseId: newPlant.databaseId,
+      nickname: newPlant.nickname,
+      needWater: 1,
+      needFertilizer: 0,
+      date: waterDate);
+
+  Task fertilizeTask = Task(
+      databaseId: newPlant.databaseId,
+      nickname: newPlant.nickname,
+      needWater: 0,
+      needFertilizer: 1,
+      date: fertilizeDate);
+
+  taskController.tasks.add(waterTask);
+  taskController.tasks.add(fertilizeTask);
+  String encoded = jsonEncode(taskController.tasks);
+  taskController.writeTasks(encoded);
+}
 
   Future<void> _writeToFile(List<Collection> plants) async {
     try {

@@ -1,3 +1,10 @@
+/*
+  Author: Karolína Pirohová
+  Description: Collection class represents information about a plant collection, including its properties and methods for JSON serialization and deserialization.
+*/
+
+import 'dart:io';
+
 class Collection {
   int databaseId;
   String nickname;
@@ -6,6 +13,7 @@ class Collection {
   DateTime lastWatered;
   DateTime lastFertilized;
   String notes;
+  File? imageFile; 
 
   Collection({
     required this.databaseId,
@@ -15,6 +23,7 @@ class Collection {
     DateTime? lastWatered,
     DateTime? lastFertilized,
     this.notes = "",
+    this.imageFile,
   })  : datePlanted = datePlanted ?? DateTime.now(),
         lastWatered = lastWatered ?? DateTime.now(),
         lastFertilized = lastFertilized ?? DateTime.now();
@@ -34,11 +43,12 @@ class Collection {
           ? DateTime.parse(json["lastFertilized"])
           : DateTime.now(),
       notes: json["notes"] ?? "",
+      imageFile: null,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
+ Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {
       'databaseId': databaseId,
       'nickname': nickname,
       'photo': photo,
@@ -47,5 +57,12 @@ class Collection {
       'lastFertilized': lastFertilized.toIso8601String(),
       'notes': notes,
     };
+
+    // Include the imageFile path in the JSON if it is not null
+    if (imageFile != null) {
+      json['imageFile'] = imageFile!.path;
+    }
+
+    return json;
   }
 }

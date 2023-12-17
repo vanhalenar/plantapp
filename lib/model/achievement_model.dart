@@ -2,6 +2,7 @@ class Achievement {
   int databaseId;
   String nickname;
   String achievement;
+  int type;
   int max;
   int current;
 
@@ -9,6 +10,7 @@ class Achievement {
       {required this.databaseId,
       required this.nickname,
       required this.achievement,
+      required this.type,
       required this.max,
       required this.current});
 
@@ -17,6 +19,7 @@ class Achievement {
         databaseId: json["databaseId"],
         nickname: json["nickname"],
         achievement: json["achievement"],
+        type: json["type"],
         max: json["max"],
         current: json["current"]);
   }
@@ -25,6 +28,7 @@ class Achievement {
         'databaseId': databaseId,
         'nickname': nickname,
         'achievement': achievement,
+        'type': type,
         'max': max,
         'current': current
       };
