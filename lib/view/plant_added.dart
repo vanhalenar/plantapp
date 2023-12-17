@@ -159,7 +159,7 @@ class PlantAddedState extends State<PlantAdded> {
                         8), // Adjust border radius as needed
                   ),
                 ),
-                child: Text('Edit Plant'),
+                child: Text('Edit Plant',style: Theme.of(context).textTheme.labelMedium,),
               ),
           ],
           ),

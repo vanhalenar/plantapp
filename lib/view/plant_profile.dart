@@ -221,7 +221,8 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                         8), // Adjust border radius as needed
                   ),
                 ),
-                child: Text('Add Plant'),
+                child: Text('Add Plant',
+                style: Theme.of(context).textTheme.labelMedium,),
               ),
           ],
           ),
@@ -286,16 +287,15 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                         ),
                         child: Center(
                           child: Text(
-                            '+',
-                            style: TextStyle(
-                              color: Color(0xFF39633D),
-                              fontSize: 24,
+                              '+',
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: Color(0xFF39633D),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 20),
                   SizedBox(height: 20),
                   Container(
