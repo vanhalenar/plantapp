@@ -18,7 +18,15 @@ class Task {
         nickname: json["nickname"],
         needWater: json["needWater"],
         needFertilizer: json["needFertilizer"],
-        date: DateTime.parse(json["date"]));
+        date: returnDate(json));
+  }
+
+  static DateTime returnDate(Map<String, dynamic> json) {
+    if (json.containsKey("date")) {
+      return DateTime.parse(json["date"]);
+    } else {
+      return DateTime.now();
+    }
   }
 
   Map<String, dynamic> toJson() => {

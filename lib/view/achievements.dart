@@ -197,27 +197,23 @@ class LineProgOrNot extends StatefulWidget {
   final Achievement achievement;
 
   @override
-  State<LineProgOrNot> createState() => _LineProgOrNotState(achievement);
+  State<LineProgOrNot> createState() => _LineProgOrNotState();
 }
 
 class _LineProgOrNotState extends State<LineProgOrNot>
     with TickerProviderStateMixin {
-  _LineProgOrNotState(this.achievement);
-
   late AnimationController controller;
-  final Achievement achievement;
+  //Achievement achievement;
 
   @override
   void initState() {
     controller = AnimationController(
-      /// [AnimationController]s can be created with `vsync: this` because of
-      /// [TickerProviderStateMixin].
       vsync: this,
       duration: const Duration(seconds: 1),
     )..addListener(() {
         setState(() {});
       });
-    controller.animateTo(achievement.current / achievement.max);
+    controller.animateTo(widget.achievement.current / widget.achievement.max);
     super.initState();
   }
 

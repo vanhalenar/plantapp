@@ -10,7 +10,6 @@ import 'controller/coll_controller.dart';
 import 'controller/usercoll_controller.dart';
 import 'controller/achievements_controller.dart';
 
-
 void main() {
   runApp(const MyApp());
   //seeders, remove when deploying
@@ -18,10 +17,16 @@ void main() {
   var collController = CollController();
   var usercollController = UserCollController();
   var achController = AchievementsController();
+
   taskController.seedFile();
   collController.seedFile();
   usercollController.seedFile();
   achController.seedFile();
+
+  /*taskController.seedIfNoFileExists();
+  collController.seedIfNoFileExists();
+  usercollController.seedIfNoFileExists();
+  achController.seedIfNoFileExists();*/
 }
 
 class MyApp extends StatelessWidget {

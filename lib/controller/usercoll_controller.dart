@@ -11,7 +11,8 @@ class UserCollController {
 
   Future<void> loadCollectionsFromAsset() async {
     try {
-      final String data = await rootBundle.loadString('assets/userCollections.json');
+      final String data =
+          await rootBundle.loadString('assets/userCollections.json');
       final List<dynamic> jsonData = json.decode(data);
       _colls = jsonData.map((e) => UserColl.fromJson(e)).toList();
     } catch (e) {
@@ -98,4 +99,25 @@ class UserCollController {
     _writeToFile(_colls);
   }
 
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/userCollections.json');
+  }
+
+  void seedIfNoFileExists() async {
+    final file = await _localFile;
+    bool fileExists = await file.exists();
+    if (fileExists) {
+      print('file do be existin doe');
+    } else {
+      print('file aint there brudda');
+      seedFile();
+    }
+  }
 }

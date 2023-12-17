@@ -17,7 +17,6 @@ import 'package:plantapp/model/task_model.dart';
 import 'task_controller.dart';
 import 'plant_controller.dart';
 
-
 class CollController {
   List<Collection> _collection = [];
 
@@ -35,61 +34,61 @@ class CollController {
   }
 
   Future<void> savePlant(Collection newPlant) async {
-  await loadPlantsFromFile();
-  _collection.add(newPlant);
-  print("databaseId: ${newPlant.databaseId}");
+    await loadPlantsFromFile();
+    _collection.add(newPlant);
+    print("databaseId: ${newPlant.databaseId}");
 
-  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-  String imageDirectory = "${appDocumentsDirectory.path}/images";
+    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    String imageDirectory = "${appDocumentsDirectory.path}/images";
 
-  // Create the directory if it doesn't exist
-  await Directory(imageDirectory).create(recursive: true);
+    // Create the directory if it doesn't exist
+    await Directory(imageDirectory).create(recursive: true);
 
-  String imagePath = "$imageDirectory/${newPlant.databaseId}.jpg";
+    String imagePath = "$imageDirectory/${newPlant.databaseId}.jpg";
 
-  // Save the image file
-  if (newPlant.imageFile != null) {
-    // Save the image file to the specified path
-    await newPlant.imageFile!.copy(imagePath);
-    newPlant.photo = imagePath;
+    // Save the image file
+    if (newPlant.imageFile != null) {
+      // Save the image file to the specified path
+      await newPlant.imageFile!.copy(imagePath);
+      newPlant.photo = imagePath;
+    }
+
+    await _writeToFile(_collection);
+
+    TaskController taskController = TaskController();
+    await taskController.loadTasksFromFile();
+
+    PlantController plantController = PlantController();
+    await plantController.loadPlantsFromAsset();
+    int waterInterval =
+        plantController.plants[newPlant.databaseId - 1].wateringPeriod;
+    int fertilizeInterval =
+        plantController.plants[newPlant.databaseId - 1].fertilizingPeriod;
+
+    DateTime waterDate =
+        newPlant.lastWatered.add(Duration(days: waterInterval));
+    DateTime fertilizeDate =
+        newPlant.lastFertilized.add(Duration(days: fertilizeInterval));
+
+    Task waterTask = Task(
+        databaseId: newPlant.databaseId,
+        nickname: newPlant.nickname,
+        needWater: 1,
+        needFertilizer: 0,
+        date: waterDate);
+
+    Task fertilizeTask = Task(
+        databaseId: newPlant.databaseId,
+        nickname: newPlant.nickname,
+        needWater: 0,
+        needFertilizer: 1,
+        date: fertilizeDate);
+
+    taskController.tasks.add(waterTask);
+    taskController.tasks.add(fertilizeTask);
+    String encoded = jsonEncode(taskController.tasks);
+    taskController.writeTasks(encoded);
   }
-
-  await _writeToFile(_collection);
-
-  TaskController taskController = TaskController();
-  await taskController.loadTasksFromFile();
-
-  PlantController plantController = PlantController();
-  await plantController.loadPlantsFromAsset();
-  int waterInterval =
-      plantController.plants[newPlant.databaseId - 1].wateringPeriod;
-  int fertilizeInterval =
-      plantController.plants[newPlant.databaseId - 1].fertilizingPeriod;
-
-  DateTime waterDate =
-      newPlant.lastWatered.add(Duration(days: waterInterval));
-  DateTime fertilizeDate =
-      newPlant.lastFertilized.add(Duration(days: fertilizeInterval));
-
-  Task waterTask = Task(
-      databaseId: newPlant.databaseId,
-      nickname: newPlant.nickname,
-      needWater: 1,
-      needFertilizer: 0,
-      date: waterDate);
-
-  Task fertilizeTask = Task(
-      databaseId: newPlant.databaseId,
-      nickname: newPlant.nickname,
-      needWater: 0,
-      needFertilizer: 1,
-      date: fertilizeDate);
-
-  taskController.tasks.add(waterTask);
-  taskController.tasks.add(fertilizeTask);
-  String encoded = jsonEncode(taskController.tasks);
-  taskController.writeTasks(encoded);
-}
 
   Future<void> _writeToFile(List<Collection> plants) async {
     try {
@@ -149,6 +148,28 @@ class CollController {
   void seedFile() async {
     await loadPlantsFromAsset();
     _writeToFile(_collection);
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/plantColl.json');
+  }
+
+  void seedIfNoFileExists() async {
+    final file = await _localFile;
+    bool fileExists = await file.exists();
+    if (fileExists) {
+      print('file do be existin doe');
+    } else {
+      print('file aint there brudda');
+      seedFile();
+    }
   }
 
   int calculateDaysUntilNextAction(DateTime lastDate, int period) {
