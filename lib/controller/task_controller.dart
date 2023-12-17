@@ -1,3 +1,8 @@
+/*
+  Author: Timotej Halenár
+  Description: Used to retrieve, modify and store task data,
+  provides converter functions
+*/
 // ignore_for_file: avoid_print, curly_braces_in_flow_control_structures
 
 import 'dart:convert';

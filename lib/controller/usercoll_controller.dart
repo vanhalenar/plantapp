@@ -1,6 +1,9 @@
 /*
   Author: Tomáš Mikát
   Description: Controller for page for user's collections
+
+  Co-Author: Timotej Halenár
+  Contribution: addPlantToCollectionByPlant() method.
 */
 
 // ignore_for_file: prefer_const_constructors, avoid_print, prefer_const_literals_to_create_immutables

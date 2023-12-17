@@ -1,3 +1,8 @@
+/*
+  Author: Timotej Halenár
+  Description: Used to retrieve, modify and store achievement data
+*/
+
 // ignore_for_file: avoid_print
 
 import 'dart:io';

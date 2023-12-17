@@ -1,3 +1,8 @@
+/*
+  Author: Timotej Halenár
+  Description: Homepage View. Renders tasks, provides functionality 
+  to mark task as finished, renders incomplete achievements 
+*/
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/task_controller.dart';
 import 'package:plantapp/controller/achievements_controller.dart';
