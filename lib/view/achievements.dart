@@ -41,7 +41,7 @@ class _AchievementsState extends State<Achievements> {
           FutureBuilder(
               future: Future.wait([
                 achievementsController.loadAchievementsFromFile(),
-                plantController.loadPlantsFromAsset()
+                plantController.loadPlantsFromAsset(),
               ]),
               builder: ((context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
@@ -189,19 +189,49 @@ class AchievementCard extends StatelessWidget {
   }
 }
 
-class LineProgOrNot extends StatelessWidget {
+class LineProgOrNot extends StatefulWidget {
   const LineProgOrNot(this.achievement, {super.key});
 
   final Achievement achievement;
 
   @override
+  State<LineProgOrNot> createState() => _LineProgOrNotState(achievement);
+}
+
+class _LineProgOrNotState extends State<LineProgOrNot>
+    with TickerProviderStateMixin {
+  _LineProgOrNotState(this.achievement);
+
+  late AnimationController controller;
+  final Achievement achievement;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      /// [AnimationController]s can be created with `vsync: this` because of
+      /// [TickerProviderStateMixin].
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.animateTo(achievement.current / achievement.max);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (achievement.current < achievement.max) {
+    if (widget.achievement.current < widget.achievement.max) {
       return SizedBox(
           height: 10,
           width: 200,
-          child: LinearProgressIndicator(
-              value: achievement.current / achievement.max));
+          child: LinearProgressIndicator(value: controller.value));
     } else {
       return const SizedBox(
         height: 10,
