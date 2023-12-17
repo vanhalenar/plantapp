@@ -8,7 +8,7 @@ VUT FIT - ITU project: plant care
 
 2. Presuňte aplikáciu do android telefónu
 
-3. V telefóne nájdite a spustite .apk súbor
+3. V telefóne nájdite a spustite .apk súbor, aplikácia sa nainštaluje
 
 ## Závislosti
 
