@@ -1,3 +1,8 @@
+/*
+  Author: Karolína Pirohová
+  Description: AddPlant widget allows users to search using Latin names and view plant cards
+*/
+
 // ignore_for_file: prefer_const_constructors, avoid_print, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/plant_controller.dart';
@@ -124,8 +129,8 @@ class SearchBar extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.camera_alt),
-                SizedBox(width: 8),
+                // Icon(Icons.camera_alt),
+                // SizedBox(width: 8),
                 Icon(Icons.filter_alt),
               ],
             ),

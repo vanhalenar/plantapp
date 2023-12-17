@@ -1,3 +1,8 @@
+/*
+  Author: Karolína Pirohová
+  Description: PlantAdded widget displays details of a specific plant and allows users to edit, delete, or view more information about it.
+*/
+
 // ignore_for_file: prefer_const_constructors, avoid_print, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/plant_controller.dart';
@@ -5,6 +10,8 @@ import 'package:plantapp/model/coll_model.dart';
 import 'package:plantapp/model/plant_model.dart';
 import 'package:plantapp/controller/coll_controller.dart';
 import 'package:plantapp/view/plant_profile.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class PlantAdded extends StatefulWidget {
   final Collection plant;
@@ -66,6 +73,8 @@ class PlantAddedState extends State<PlantAdded> {
     TextEditingController nicknameController = TextEditingController();
     TextEditingController notesController = TextEditingController();
 
+    File? imageFile;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -81,8 +90,13 @@ class PlantAddedState extends State<PlantAdded> {
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  // Implement functionality to add a photo
+                onTap: () async {
+                  final picker = ImagePicker();
+                  final XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+                  if (pickedFile != null) {
+                    imageFile = File(pickedFile.path);
+                  }
                 },
                 child: Container(
                   height: 150,
@@ -129,13 +143,17 @@ class PlantAddedState extends State<PlantAdded> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async{
-                                // Retrieve the existing plant data
+                  // Retrieve the existing plant data
                   Collection existingPlant = await widget.collController.getPlant(widget.plantType.id);
 
                   // Update the existing plant with the entered data
                   existingPlant.nickname = nicknameController.text;
                   existingPlant.notes = notesController.text;
-
+                  
+                  if (imageFile != null) {
+                    existingPlant.imageFile = imageFile;
+                  }
+                  
                   // Save the updated plant using CollController
                   await widget.collController.updatePlant(existingPlant);
 
@@ -189,12 +207,19 @@ class PlantAddedState extends State<PlantAdded> {
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      widget.plantType.image,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.width * 0.5,
-                    ),
+                    child: widget.plant.photo.isNotEmpty
+                        ? Image.file(
+                            File(widget.plant.photo),
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.width * 0.5,
+                          )
+                        : Image.asset(
+                            widget.plantType.image,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.width * 0.5,
+                          ),
                   ),
                 ),
               ),

@@ -1,10 +1,17 @@
+/*
+  Author: Karolína Pirohová
+  Description: PlantProfileCard widget displays detailed information about a specific plant, including an option to add the plant to the user's collection.
+*/
+
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:plantapp/model/plant_model.dart';
 import 'package:plantapp/model/coll_model.dart';
 import 'package:plantapp/controller/coll_controller.dart';
 import 'package:plantapp/view/plant_added.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PlantProfileCard extends StatefulWidget {
   final Plant plant;
@@ -21,6 +28,8 @@ class PlantProfileCard extends StatefulWidget {
 }
 
 class PlantProfileCardState extends State<PlantProfileCard> {
+
+  File? imageFile;
   
   void _showAddPlantBottomSheet(BuildContext context) {
     TextEditingController nicknameController = TextEditingController();
@@ -44,8 +53,14 @@ class PlantProfileCardState extends State<PlantProfileCard> {
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  // Implement functionality to add a photo
+                onTap: () async {
+                  final picker = ImagePicker();
+                  final XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+                  if (pickedFile != null) {
+                  // Assign the picked image file to imageFile
+                  imageFile = File(pickedFile.path);
+                }
                 },
                 child: Container(
                   height: 150,
@@ -197,6 +212,7 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                     lastWatered: lastWatered,
                     lastFertilized: lastFertilized,
                     notes: notesController.text,
+                    imageFile: imageFile, 
                   );
 
                   // Save the new plant using CollController
@@ -217,8 +233,7 @@ class PlantProfileCardState extends State<PlantProfileCard> {
                   padding: EdgeInsets.symmetric(
                       horizontal: 16), // Adjust horizontal padding
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        8), // Adjust border radius as needed
+                    borderRadius: BorderRadius.circular(8), // Adjust border radius as needed
                   ),
                 ),
                 child: Text('Add Plant',
