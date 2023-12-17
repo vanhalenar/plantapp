@@ -33,7 +33,7 @@ class _CalendarState extends State<Calendar> {
   }
 
   Future<void> loadEvents() async {
-    List<Event> events = await loadTasksFromJson();
+    List<Event> events = await loadTasksFromFile();
     setState(() {
       _selectedEvents.value = events;
     });
@@ -47,13 +47,13 @@ class _CalendarState extends State<Calendar> {
 
   List<Event> _getEventsForDay(DateTime day) {
     return _selectedEvents.value
-      .where((event) => isSameDay(event.date, day))
-      .toList();
+        .where((event) => isSameDay(event.date, day))
+        .toList();
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
     List<Event> events = [];
-  
+
     for (DateTime day in daysInRange(start, end)) {
       events.addAll(_getEventsForDay(day));
     }
@@ -73,7 +73,7 @@ class _CalendarState extends State<Calendar> {
 
       // Load events for the selected day
       List<Event> events = _getEventsForDay(selectedDay);
-      
+
       if (events.isNotEmpty) {
         _selectedEvents.value = events;
       }
