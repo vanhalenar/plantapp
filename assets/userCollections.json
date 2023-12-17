@@ -1,6 +1,6 @@
 [
     {
-        "collName" : "_DEFAULT_",
+        "collName" : "My Plants",
         "plantIds" : [1],
         "plantNames" : ["Sal"]
     },
