@@ -1,3 +1,8 @@
+/*
+  Author: Karolína Pirohová
+  Description: AddPlant widget allows users to search using Latin names and view plant cards
+*/
+
 // ignore_for_file: prefer_const_constructors, avoid_print, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/plant_controller.dart';
@@ -14,6 +19,8 @@ class AddPlant extends StatefulWidget {
 
 class AddPlantState extends State<AddPlant> {
   List<Plant> plants = [];
+  List<Plant> allPlants = [];
+
   bool dataLoaded = false; // Flag to track whether data is loaded
 
   @override
@@ -29,14 +36,22 @@ class AddPlantState extends State<AddPlant> {
       
       await plantController.loadPlantsFromAsset();
       setState(() {
-        // Use the data from the same instance of PlantController!
+        // Use the data from the same instance of PlantController
         plants = plantController.plants; 
+        allPlants = plantController.plants;
         dataLoaded = true;
       });
-
-      // Print the IDs of loaded plants for debugging
-      //print('Loaded Plant IDs: ${plants.map((plant) => plant.id).join(', ')}');
     }
+  }
+
+  void filterPlants(String query) {
+    setState(() {
+      plants = allPlants
+          .where((plant) =>
+              RegExp('^${RegExp.escape(query)}', caseSensitive: false)
+                  .hasMatch(plant.latin))
+          .toList();
+    });
   }
 
   @override
@@ -53,10 +68,7 @@ class AddPlantState extends State<AddPlant> {
           child: AppBar(
             title: Text(
               'Plant Finder',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-              ),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             backgroundColor: Color(0xFFBFD7B5),
             titleSpacing: 10,
@@ -66,9 +78,8 @@ class AddPlantState extends State<AddPlant> {
         ),
         body: Column(
         children: [
-          SearchBar(), // Place the SearchBar widget here
+          SearchBar(filterPlants: filterPlants),
           Expanded(
-            // Wrap ListView.builder in an Expanded widget to take the remaining space
             child: ListView.builder(
               itemCount: plants.length,
               itemBuilder: (context, index) {
@@ -97,22 +108,29 @@ class AddPlantState extends State<AddPlant> {
   }
 }
 class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
+  final Function(String) filterPlants;
+
+  const SearchBar({Key? key, required this.filterPlants}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left: 30, top: 30, right: 30, bottom: 20),      child: TextField(
+      margin: EdgeInsets.only(left: 30, top: 30, right: 30, bottom: 20),
+      child: TextField(
+        onChanged: (value) {
+          // Call the filterPlants function with the search query
+          filterPlants(value);
+        },
         decoration: InputDecoration(
           hintText: 'Search for plant',
           prefixIcon: Icon(Icons.search),
           suffixIcon: Padding(
-            padding: EdgeInsets.all(8), // Adjust the padding as needed
+            padding: EdgeInsets.all(8),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.camera_alt),
-                SizedBox(width: 8), // Adjust the spacing between icons
+                // Icon(Icons.camera_alt),
+                // SizedBox(width: 8),
                 Icon(Icons.filter_alt),
               ],
             ),
@@ -155,7 +173,8 @@ class PlantCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      plant.latin, // Displaying the Latin name of the plant
+                      plant.latin, 
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                     Row(
                       children: [
@@ -165,7 +184,7 @@ class PlantCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(), // Added a spacer to push the info icon to the right
+                Spacer(),
                 Icon(Icons.info_outline),
               ],
             ),

@@ -1,39 +1,66 @@
+/*
+  Author: Karolína Pirohová
+  Description: PlantProfileCard widget displays detailed information about a specific plant, including an option to add the plant to the user's collection.
+*/
+
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:plantapp/model/plant_model.dart';
 import 'package:plantapp/model/coll_model.dart';
 import 'package:plantapp/controller/coll_controller.dart';
+import 'package:plantapp/view/plant_added.dart';
+import 'package:image_picker/image_picker.dart';
 
-class PlantProfileCard extends StatelessWidget {
+class PlantProfileCard extends StatefulWidget {
   final Plant plant;
   final CollController collController;
 
-  const PlantProfileCard(
-      {required this.plant, required this.collController, Key? key})
-      : super(key: key);
+  const PlantProfileCard({
+    required this.plant,
+    required this.collController,
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  PlantProfileCardState createState() => PlantProfileCardState();
+}
+
+class PlantProfileCardState extends State<PlantProfileCard> {
+
+  File? imageFile;
+  
   void _showAddPlantBottomSheet(BuildContext context) {
     TextEditingController nicknameController = TextEditingController();
+    TextEditingController datePlantedController = TextEditingController();
+    TextEditingController lastWateredController = TextEditingController();
+    TextEditingController lastFertilizedController = TextEditingController();
+    TextEditingController notesController = TextEditingController();
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext bc) {
         return Container(
-          height: MediaQuery.of(context).size.height *
-              0.75, // Set to half of the screen
+          height: MediaQuery.of(context).size.height *  0.75, // Set to half of the screen
           padding: EdgeInsets.all(20),
           child: ListView(
-            children: <Widget>[
+            children: <Widget> [
               Text(
                 'Photo',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  // Implement functionality to add a photo
+                onTap: () async {
+                  final picker = ImagePicker();
+                  final XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+                  if (pickedFile != null) {
+                  // Assign the picked image file to imageFile
+                  imageFile = File(pickedFile.path);
+                }
                 },
                 child: Container(
                   height: 150,
@@ -66,14 +93,27 @@ class PlantProfileCard extends StatelessWidget {
                 'Date Planted',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              TextField(
+               TextField(
+                controller: datePlantedController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
-                onTap: () {
-                  // Implement date picker functionality
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: datePlantedController.text.isNotEmpty
+                        ? DateTime.parse(datePlantedController.text)
+                        : DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (selectedDate != null) {
+                    // Format the selected date and update the controller
+                    String formattedDate = selectedDate.toLocal().toString();
+                    datePlantedController.text = formattedDate;
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -82,13 +122,26 @@ class PlantProfileCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               TextField(
+                controller: lastWateredController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
-                onTap: () {
-                  // Implement date picker functionality
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: lastWateredController.text.isNotEmpty
+                        ? DateTime.parse(lastWateredController.text)
+                        : DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (selectedDate != null) {
+                    // Format the selected date and update the controller
+                    String formattedDate = selectedDate.toLocal().toString();
+                    lastWateredController.text = formattedDate;
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -96,14 +149,27 @@ class PlantProfileCard extends StatelessWidget {
                 'Last Fertilized',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              TextField(
+               TextField(
+                controller: lastFertilizedController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 ),
-                onTap: () {
-                  // Implement date picker functionality
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: lastFertilizedController.text.isNotEmpty
+                        ? DateTime.parse(lastFertilizedController.text)
+                        : DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+
+                  if (selectedDate != null) {
+                    // Format the selected date and update the controller
+                    String formattedDate = selectedDate.toLocal().toString();
+                    lastFertilizedController.text = formattedDate;
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -113,6 +179,7 @@ class PlantProfileCard extends StatelessWidget {
               ),
               SizedBox(height: 8),
               TextField(
+                controller: notesController,
                 decoration: InputDecoration(
                   hintText: 'birthday present from sydney',
                   hintStyle: TextStyle(color: Colors.grey),
@@ -123,19 +190,42 @@ class PlantProfileCard extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () async{
+                   // Convert text representations of dates to DateTime objects
+                  DateTime datePlanted = datePlantedController.text.isNotEmpty
+                      ? DateTime.parse(datePlantedController.text)
+                      : DateTime.now();
+
+                  DateTime lastWatered = lastWateredController.text.isNotEmpty
+                      ? DateTime.parse(lastWateredController.text)
+                      : DateTime.now();
+
+                  DateTime lastFertilized = lastFertilizedController.text.isNotEmpty
+                      ? DateTime.parse(lastFertilizedController.text)
+                      : DateTime.now();
+                      
                   // Create a Collection object with the entered data
                   Collection newPlant = Collection(
-                    databaseId: plant
-                        .id, // Use the appropriate ID from your Plant object
+                    databaseId: widget.plant.id, 
                     nickname: nicknameController.text,
+                    datePlanted: datePlanted,
+                    lastWatered: lastWatered,
+                    lastFertilized: lastFertilized,
+                    notes: notesController.text,
+                    imageFile: imageFile, 
                   );
 
                   // Save the new plant using CollController
-                  await collController.savePlant(newPlant);
+                  await widget.collController.savePlant(newPlant);
+
+                  if (!context.mounted) return;
 
                   // Close the bottom sheet
-                  // Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+
+                  // Navigate to the new screen (plant_added.dart)
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlantAdded(plant: newPlant, collController: widget.collController, plantType: widget.plant)),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFBFD7B5), // Background color
@@ -143,13 +233,13 @@ class PlantProfileCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       horizontal: 16), // Adjust horizontal padding
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        8), // Adjust border radius as needed
+                    borderRadius: BorderRadius.circular(8), // Adjust border radius as needed
                   ),
                 ),
-                child: Text('Add Plant'),
+                child: Text('Add Plant',
+                style: Theme.of(context).textTheme.labelMedium,),
               ),
-            ],
+          ],
           ),
         );
       },
@@ -174,7 +264,7 @@ class PlantProfileCard extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
-                      plant.image,
+                      widget.plant.image,
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.width * 0.5,
@@ -192,7 +282,7 @@ class PlantProfileCard extends StatelessWidget {
                   SizedBox(height: 16),
                   Center(
                     child: Text(
-                      plant.latin,
+                      widget.plant.latin,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -212,16 +302,15 @@ class PlantProfileCard extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            '+',
-                            style: TextStyle(
-                              color: Color(0xFF39633D),
-                              fontSize: 24,
+                              '+',
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: Color(0xFF39633D),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 20),
                   SizedBox(height: 20),
                   Container(
@@ -237,7 +326,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.description,
+                      widget.plant.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -254,7 +343,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.names,
+                      widget.plant.names,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -271,7 +360,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.watering,
+                      widget.plant.watering,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -288,7 +377,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.fertilizing,
+                      widget.plant.fertilizing,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -305,7 +394,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.difficulty,
+                      widget.plant.difficulty,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -322,7 +411,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.light,
+                      widget.plant.light,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -339,7 +428,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.tips,
+                      widget.plant.tips,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -356,7 +445,7 @@ class PlantProfileCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      plant.information,
+                      widget.plant.information,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
