@@ -187,14 +187,6 @@ class AchievementCard extends StatelessWidget {
       ),
     );
   }
-
-  Color doneOrNot(Achievement achievement) {
-    if (achievement.current == achievement.max) {
-      return ColorScheme.fromSeed(seedColor: Colors.green).primary;
-    } else {
-      return Color(0xAA6E7487);
-    }
-  }
 }
 
 class LineProgOrNot extends StatelessWidget {
