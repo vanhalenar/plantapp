@@ -81,6 +81,48 @@ class _PlantInstState extends State<PlantInst> {
     );
   }
 
+  Future<void> _dialogNewCollection(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('New Collection'),
+          content: TextField(
+            controller: usercollsController,
+            decoration: InputDecoration(
+              hintText: 'Name',
+              hintStyle: TextStyle(color: Colors.grey),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Create'),
+              onPressed: () async {
+                await collCont.newCollection(usercollsController.text);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _dialogChangeName(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -88,15 +130,15 @@ class _PlantInstState extends State<PlantInst> {
         return AlertDialog(
           title: const Text('Rename Collection'),
           content: TextField(
-                    controller: usercollsController,
-                    decoration: InputDecoration(
-                      hintText: 'New Name',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+            controller: usercollsController,
+            decoration: InputDecoration(
+              hintText: 'New Name',
+              hintStyle: TextStyle(color: Colors.grey),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              border: OutlineInputBorder(),
+            ),
+          ),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
@@ -160,20 +202,20 @@ class _PlantInstState extends State<PlantInst> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          
           title: const Text('Add Plant'),
-          content: Expanded(
-            child: ListView.builder(
-              itemCount: collCont.colls[0].plantIds.length,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
+          content: Container(
+            height: 200, // Set a specific height
+            child: Column(
+              children: List.generate(
+                collCont.colls[0].plantIds.length,
+                (index) => ElevatedButton(
                   onPressed: () async {
                     await collCont.addPlantToCollection(index, selectedCollectionIndex);
                     Navigator.of(context).pop();
                   },
-                  child: Text('${collCont.colls[index].plantIds}'),
-                );
-              },
+                  child: Text('${collCont.colls[selectedCollectionIndex].plantNames[index]}'),
+                ),
+              ),
             ),
           ),
           actions: <Widget>[
@@ -198,18 +240,19 @@ class _PlantInstState extends State<PlantInst> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Remove Plant'),
-          content: Expanded(
-            child: ListView.builder(
-              itemCount: collCont.colls[selectedCollectionIndex].plantIds.length,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
+          content: Container(
+            height: 200, // Set a specific height
+            child: Column(
+              children: List.generate(
+                collCont.colls[selectedCollectionIndex].plantIds.length,
+                (index) => ElevatedButton(
                   onPressed: () async {
                     await collCont.removePlantFromCollection(index, selectedCollectionIndex);
                     Navigator.of(context).pop();
                   },
-                  child: Text('${collCont.colls[index].plantIds}'),
-                );
-              },
+                  child: Text('${collCont.colls[selectedCollectionIndex].plantNames[index]}'),
+                ),
+              ),
             ),
           ),
           actions: <Widget>[
@@ -231,7 +274,16 @@ class _PlantInstState extends State<PlantInst> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("User's Collections")),
+        appBar: AppBar(title: Row(
+          children: [
+            Text("User's Collections"),
+            Spacer(),
+            GestureDetector(
+              onTap: () => _dialogNewCollection(context),
+              child: Icon(Icons.add, size: 40.0)
+            ),
+          ]
+        )),
         body: ListView.builder(
             itemCount: collCont.colls.length,
             itemBuilder: (context, index) => ListTile(

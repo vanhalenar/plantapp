@@ -47,10 +47,12 @@ class UserCollController {
     }
   }
 
-  Future<void> newCollection(UserColl newColl) async {
+  Future<void> newCollection(String collName) async {
     await loadCollectionsFromFile();
-    _colls.add(newColl);
-    print("collName: ${newColl.collName}");
+    _colls.add(UserColl(
+      collName: collName, 
+      plantIds: [], 
+      plantNames: []));
     await _writeToFile(_colls);
   }
 
