@@ -15,7 +15,6 @@ class UserCollController {
       final List<dynamic> jsonData = json.decode(data);
       _colls = jsonData.map((e) => UserColl.fromJson(e)).toList();
     } catch (e) {
-      // Handle errors or exceptions
       // ignore: avoid_print
       print('Error loading data: $e');
     }
@@ -29,7 +28,6 @@ class UserCollController {
       await file.writeAsString(jsonEncode(userColls));
       print('Write successful!');
     } catch (e) {
-      // Handle errors or exceptions
       print('Error writing to file: $e');
     }
   }
@@ -45,7 +43,6 @@ class UserCollController {
         print("collection count on load from file: ${_colls.length}");
       }
     } catch (e) {
-      // Handle errors or exceptions
       print('Error loading collections from file: $e');
     }
   }
@@ -63,7 +60,6 @@ class UserCollController {
       await _writeToFile(_colls);
       print('Collection found: ${_colls[oldIndex].collName}');
     } else {
-      // Handle the case where the plant to update is not found
       print('Collection not found: ${_colls[oldIndex].collName}');
     }
   }
