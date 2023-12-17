@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:plantapp/model/collection_model.dart';
+import 'package:plantapp/model/task_model.dart';
 
 /// Example event class.
 class Event {
   final String title;
+  final DateTime date;
 
-  const Event(this.title);
+  const Event(this.title, this.date);
 
   @override
   String toString() => title;
@@ -23,18 +24,18 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 
 Future<List<Event>> loadTasksFromJson() async {
   try {
-    String jsonString = await rootBundle.loadString('assets/plantCollection.json');
+    String jsonString = await rootBundle.loadString('assets/tasks.json');
     final List<dynamic> parsedJson = json.decode(jsonString);
 
-    final List<Plant> plants = parsedJson.map((eventJson) => Plant.fromJson(eventJson)).toList();
+    final List<Task> plants = parsedJson.map((eventJson) => Task.fromJson(eventJson)).toList();
     
     List<Event> tasks = [];
 
     for (final plant in plants) {
       if (plant.needWater == 1) {
-        tasks.add(Event("${plant.nickname} | Needs Watering"));
+        tasks.add(Event("${plant.nickname} | Needs Watering", plant.date));
       } else {
-        tasks.add(Event("${plant.nickname} | Needs Fertilizing"));
+        tasks.add(Event("${plant.nickname} | Needs Fertilizing", plant.date));
       }
     }
 

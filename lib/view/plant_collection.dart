@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:plantapp/model/plant_model.dart';
+import 'package:plantapp/model/usercoll_model.dart';
 import 'package:plantapp/controller/plant_controller.dart';
 import 'package:plantapp/controller/usercoll_controller.dart';
 
@@ -26,11 +28,15 @@ class PlantInst extends StatefulWidget {
 }
 
 class _PlantInstState extends State<PlantInst> {
-  var collCont = CollController();
+  var collCont = UserCollController();
   var plantCont = PlantController();
 
+  int selectedCollectionIndex = -1;
+
+  TextEditingController usercollsController = TextEditingController();
+
   Future<void> loadScreen() async {
-    await collCont.loadUserCollectionsFromAsset();
+    await collCont.loadCollectionsFromFile();
     await plantCont.loadPlantsFromAsset();
     setState(() {});
   }
@@ -41,6 +47,187 @@ class _PlantInstState extends State<PlantInst> {
     super.initState();
   }
 
+  void _showCollectionSettings(BuildContext context) {
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext bc) {
+        return Container(
+          height: MediaQuery.of(context).size.height *  0.5, // Set to half of the screen
+          padding: EdgeInsets.all(20),
+          child: ListView(
+            children: <Widget> [
+              ElevatedButton(
+                onPressed: () => _dialogChangeName(context),
+                child: Text('Rename Collection'),
+              ),
+              ElevatedButton(
+                onPressed: () => _dialogDeleteColl(context),
+                child: Text('Delete Collection'),
+              ),
+              ElevatedButton(
+                onPressed: () => _dialogAddPlant(context),
+                child: Text('Add Plant To Collection'),
+              ),
+              ElevatedButton(
+                onPressed: () => _dialogRemovePlant(context),
+                child: Text('Remove Plant From Collection'),
+              ),
+          ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _dialogChangeName(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Rename Collection'),
+          content: TextField(
+                    controller: usercollsController,
+                    decoration: InputDecoration(
+                      hintText: 'New Name',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Rename'),
+              onPressed: () async {
+                await collCont.updateCollection(usercollsController.text, selectedCollectionIndex);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _dialogDeleteColl(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Collection'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Yes'),
+              onPressed: () async {
+                await collCont.deleteCollection(selectedCollectionIndex);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _dialogAddPlant(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          
+          title: const Text('Add Plant'),
+          content: Expanded(
+            child: ListView.builder(
+              itemCount: collCont.colls[0].plantIds.length,
+              itemBuilder: (context, index) {
+                return ElevatedButton(
+                  onPressed: () async {
+                    await collCont.addPlantToCollection(index, selectedCollectionIndex);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('${collCont.colls[index].plantIds}'),
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _dialogRemovePlant(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Remove Plant'),
+          content: Expanded(
+            child: ListView.builder(
+              itemCount: collCont.colls[selectedCollectionIndex].plantIds.length,
+              itemBuilder: (context, index) {
+                return ElevatedButton(
+                  onPressed: () async {
+                    await collCont.removePlantFromCollection(index, selectedCollectionIndex);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('${collCont.colls[index].plantIds}'),
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +235,23 @@ class _PlantInstState extends State<PlantInst> {
         body: ListView.builder(
             itemCount: collCont.colls.length,
             itemBuilder: (context, index) => ListTile(
-                title: Text(
-                  collCont.colls[index].collName,
-                  style: const TextStyle(
-                      fontSize: 26, fontWeight: FontWeight.bold),
+                title: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedCollectionIndex = index;
+                    });
+                    _showCollectionSettings(context);
+                  },
+                  child: Row(mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        collCont.colls[index].collName,
+                        style: const TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(Icons.settings),
+                  ],),
                 ),
                 subtitle: _contentGridView(index))));
   }

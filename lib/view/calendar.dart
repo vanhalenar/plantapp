@@ -44,23 +44,19 @@ class _CalendarState extends State<Calendar> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    if (_selectedEvents.value.isNotEmpty && day.day % 4 == 0) {
-      // Assign tasks to every fourth day only if there are tasks for that day
-      return List.generate(_selectedEvents.value.length, (index) {
-        return Event("${_selectedEvents.value[index]}");
-      });
-    } else {
-      return [];
-    }
+    return _selectedEvents.value
+      .where((event) => isSameDay(event.date, day))
+      .toList();
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    // Implementation example
-    final days = daysInRange(start, end);
+    List<Event> events = [];
+  
+    for (DateTime day in daysInRange(start, end)) {
+      events.addAll(_getEventsForDay(day));
+    }
 
-    return [
-      for (final d in days) ..._getEventsForDay(d),
-    ];
+    return events;
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
@@ -155,7 +151,6 @@ class _CalendarState extends State<Calendar> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
                         title: Text('${value[index]}'),
                       ),
                     );

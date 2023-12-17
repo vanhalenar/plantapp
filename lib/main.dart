@@ -7,14 +7,17 @@ import 'view/calendar.dart';
 import 'view/achievements.dart';
 import 'controller/task_controller.dart';
 import 'controller/coll_controller.dart';
+import 'controller/usercoll_controller.dart';
 
 void main() {
   runApp(const MyApp());
   //seeders, remove when deploying
   var taskController = TaskController();
   var collController = CollController();
+  var usercollController = UserCollController();
   taskController.seedFile();
   collController.seedFile();
+  usercollController.seedFile();
 }
 
 class MyApp extends StatelessWidget {
