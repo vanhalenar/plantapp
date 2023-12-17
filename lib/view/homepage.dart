@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plantapp/controller/task_controller.dart';
+import 'package:plantapp/controller/achievements_controller.dart';
+import 'achievements.dart';
+import 'package:plantapp/controller/plant_controller.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -10,6 +13,8 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   var taskController = TaskController();
+  var achievementsController = AchievementsController();
+  var plantController = PlantController();
   final GlobalKey<AnimatedListState> _key = GlobalKey();
 
   void _removeItem(int index) {
@@ -18,7 +23,7 @@ class _HomepageState extends State<Homepage> {
           sizeFactor: animation,
           axis: Axis.horizontal,
           child: const RemoveTaskCard());
-    }, duration: const Duration(milliseconds: 100));
+    }, duration: const Duration(milliseconds: 200));
     taskController.removeTask(taskController.tasks[index]);
   }
 
@@ -45,42 +50,78 @@ class _HomepageState extends State<Homepage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 24.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Tasks for today',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontSize: 28),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-          ),
           FutureBuilder(
-              future: taskController.loadTasksFromFile(),
+              future: Future.wait([
+                achievementsController.loadAchievementsFromFile(),
+                plantController.loadPlantsFromAsset(),
+                taskController.loadTasksFromFile()
+              ]),
               builder: ((context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return SizedBox(
-                      height: 300,
-                      child: AnimatedList(
-                        key: _key,
-                        scrollDirection: Axis.horizontal,
-                        initialItemCount: taskController.tasks.length,
-                        itemBuilder: (context, index, animation) {
-                          return SizeTransition(
-                              sizeFactor: animation,
-                              child:
-                                  TaskCard(taskController, index, _removeItem));
-                        },
-                      ));
+                  return Expanded(
+                    child: CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 24.0),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  'Tasks for today',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(fontSize: 28),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                              height: 300,
+                              child: AnimatedList(
+                                key: _key,
+                                scrollDirection: Axis.horizontal,
+                                initialItemCount: taskController.tasks.length,
+                                itemBuilder: (context, index, animation) {
+                                  return SizeTransition(
+                                      sizeFactor: animation,
+                                      child: TaskCard(
+                                          taskController, index, _removeItem));
+                                },
+                              )),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 24.0),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  'In progress',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(fontSize: 28),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        IncompleteAchievementsList(
+                            achievementsController, plantController),
+                      ],
+                    ),
+                  );
                 } else {
-                  return const Text("still loading");
+                  return const Text("Loading data");
                 }
               }))
         ],
@@ -107,8 +148,9 @@ class TaskCard extends StatelessWidget {
           width: 150,
           child: Column(
             children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/monstera.jpg'),
+              CircleAvatar(
+                backgroundImage: AssetImage(taskController
+                    .plants[taskController.tasks[index].databaseId - 1].image),
                 radius: 40,
               ),
               Align(
@@ -168,9 +210,11 @@ class RemoveTaskCard extends StatelessWidget {
           width: 150,
           child: Column(
             children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/monstera.jpg'),
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
                 radius: 40,
+                child: Icon(Icons.check_circle,
+                    color: Theme.of(context).primaryColor, size: 80),
               ),
               Align(
                 alignment: Alignment.centerLeft,

@@ -2,8 +2,8 @@
     {
         "databaseId" : 1,
         "nickname" : "Sal",
-        "datePlanted" : "12.1.2023",
-        "lastwatered" : "15.12.2023"
+        "datePlanted" : "2023-01-12",
+        "lastwatered" : "2023-12-15"
     },
 
     {
@@ -14,7 +14,7 @@
     {
         "databaseId" : 7,
         "nickname" : "Eldrani, the Chosen One",
-        "datePlanted" : "12.1.2023"
+        "datePlanted" : "2023-01-12"
     },
 
     {

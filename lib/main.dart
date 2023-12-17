@@ -4,16 +4,24 @@ import 'view/homepage.dart';
 import 'view/add_plant.dart';
 import 'view/plant_collection.dart';
 import 'view/calendar.dart';
+import 'view/achievements.dart';
 import 'controller/task_controller.dart';
 import 'controller/coll_controller.dart';
+import 'controller/usercoll_controller.dart';
+import 'controller/achievements_controller.dart';
+
 
 void main() {
   runApp(const MyApp());
   //seeders, remove when deploying
   var taskController = TaskController();
   var collController = CollController();
+  var usercollController = UserCollController();
+  var achController = AchievementsController();
   taskController.seedFile();
   collController.seedFile();
+  usercollController.seedFile();
+  achController.seedFile();
 }
 
 class MyApp extends StatelessWidget {
@@ -92,14 +100,5 @@ class _NavigationAppState extends State<NavigationApp> {
         const PlantCollection(),
       ][currentPageIndex],
     );
-  }
-}
-
-class Achievements extends StatelessWidget {
-  const Achievements({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
