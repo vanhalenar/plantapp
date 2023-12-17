@@ -4,6 +4,9 @@
     It includes methods for loading plant data from an asset, saving new plants, updating existing plants,
     retrieving a specific plant, deleting a plant, and performing calculations related to plant actions.
     The class uses the PlantController and TaskController classes for additional functionality.
+  
+  Co-Author: Timotej Halenár
+  Contribution: Added task scheduling functionality. 
 */
 
 // ignore_for_file: avoid_print

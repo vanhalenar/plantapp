@@ -1,3 +1,8 @@
+/*
+  Author: Timotej Halenár
+  Description: Achievements View. Renders incomplete and completed
+  achievements
+*/
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';

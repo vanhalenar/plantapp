@@ -1,3 +1,9 @@
+/*
+  Author: Timotej Halenár
+  Description: Main file. Renders bottom navigation bar and provides
+  navigation to all other pages. Contains theme definition. Contains
+  seeding function calls.
+*/
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'view/homepage.dart';

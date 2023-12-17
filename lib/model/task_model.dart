@@ -1,3 +1,8 @@
+/*
+  Author: Timotej Halenár
+  Description: Represents a task, provides factory to create
+  tasks from JSON and encode data as JSON
+*/
 class Task {
   int databaseId;
   String nickname;

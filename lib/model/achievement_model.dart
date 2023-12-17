@@ -1,3 +1,8 @@
+/*
+  Author: Timotej Halenár
+  Description: Represents an achievement, provides factory to create
+  achievements from JSON and encode data as JSON
+*/
 class Achievement {
   int databaseId;
   String nickname;
