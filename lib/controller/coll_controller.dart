@@ -16,6 +16,7 @@ import 'package:plantapp/model/coll_model.dart';
 import 'package:plantapp/model/task_model.dart';
 import 'task_controller.dart';
 import 'plant_controller.dart';
+import 'usercoll_controller.dart';
 
 class CollController {
   List<Collection> _collection = [];
@@ -88,6 +89,11 @@ class CollController {
     taskController.tasks.add(fertilizeTask);
     String encoded = jsonEncode(taskController.tasks);
     taskController.writeTasks(encoded);
+
+    UserCollController userCollController = UserCollController();
+    await userCollController.loadCollectionsFromFile();
+
+    userCollController.addPlantToCollectionByPlant(newPlant);
   }
 
   Future<void> _writeToFile(List<Collection> plants) async {

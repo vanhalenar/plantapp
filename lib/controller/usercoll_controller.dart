@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plantapp/model/usercoll_model.dart';
+import 'package:plantapp/model/coll_model.dart';
 
 class UserCollController {
   List<UserColl> _colls = [];
@@ -56,10 +57,7 @@ class UserCollController {
 
   Future<void> newCollection(String collName) async {
     await loadCollectionsFromFile();
-    _colls.add(UserColl(
-      collName: collName, 
-      plantIds: [], 
-      plantNames: []));
+    _colls.add(UserColl(collName: collName, plantIds: [], plantNames: []));
     await _writeToFile(_colls);
   }
 
@@ -85,6 +83,13 @@ class UserCollController {
     _colls[collIndex].plantNames.add(_colls[0].plantNames[plantIndex]);
     _colls[0].plantIds.removeAt(plantIndex);
     _colls[0].plantNames.removeAt(plantIndex);
+    await _writeToFile(_colls);
+  }
+
+  Future<void> addPlantToCollectionByPlant(Collection plant) async {
+    await loadCollectionsFromFile();
+    _colls[0].plantIds.add(plant.databaseId);
+    _colls[0].plantNames.add(plant.nickname);
     await _writeToFile(_colls);
   }
 
