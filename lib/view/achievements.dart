@@ -180,7 +180,7 @@ class AchievementCard extends StatelessWidget {
                 ],
               ),
               Spacer(), // Added a spacer to push the info icon to the right
-              Icon(Icons.emoji_events, color: doneOrNot(achievement)),
+              Column(children: [TextOrIcon(achievement)]),
             ],
           ),
         ),
@@ -215,6 +215,24 @@ class LineProgOrNot extends StatelessWidget {
         height: 10,
         width: 200,
       );
+    }
+  }
+}
+
+class TextOrIcon extends StatelessWidget {
+  const TextOrIcon(this.achievement, {super.key});
+  final Achievement achievement;
+
+  @override
+  Widget build(BuildContext context) {
+    if (achievement.current < achievement.max) {
+      return Text(
+        "${achievement.current}/${achievement.max}",
+        style: Theme.of(context).textTheme.labelMedium,
+      );
+    } else {
+      return Icon(Icons.emoji_events,
+          color: ColorScheme.fromSeed(seedColor: Colors.green).primary);
     }
   }
 }
