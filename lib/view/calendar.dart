@@ -21,6 +21,7 @@ class _CalendarState extends State<Calendar> {
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+  List<Event> _events = [];
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _CalendarState extends State<Calendar> {
   Future<void> loadEvents() async {
     List<Event> events = await loadTasksFromJson();
     setState(() {
+      _events = events; 
       _selectedEvents.value = events;
     });
   }
@@ -46,7 +48,7 @@ class _CalendarState extends State<Calendar> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    return _selectedEvents.value
+    return _events
       .where((event) => isSameDay(event.date, day))
       .toList();
   }
@@ -72,11 +74,8 @@ class _CalendarState extends State<Calendar> {
       });
 
       // Load events for the selected day
-      List<Event> events = _getEventsForDay(selectedDay);
+      _selectedEvents.value = _getEventsForDay(selectedDay);
       
-      if (events.isNotEmpty) {
-        _selectedEvents.value = events;
-      }
     }
   }
 
@@ -153,7 +152,7 @@ class _CalendarState extends State<Calendar> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
-                        title: Text('${value[index]}'),
+                        title: Text('${value[index].title}'),
                       ),
                     );
                   },
